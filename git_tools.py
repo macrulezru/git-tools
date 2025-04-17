@@ -21,8 +21,8 @@ from data.manager import GitBranchManager
 def main():
     manager = GitBranchManager()
 
-    print(f"{manager.tr('app.title')}")
-    print(f"{manager.tr('app.help_prompt')}")
+    manager.ui.show_amiga_banner()  # Новый баннер в стиле Amiga
+    print(f"\n{manager.tr('app.help_prompt')}")
 
     while True:
         manager.show_prompt()

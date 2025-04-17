@@ -47,7 +47,8 @@ class UIManager:
     def run_first_time_setup(self):
         """Запускает красивый мастер первоначальной настройки"""
         from rich.panel import Panel
-        from rich.table import Table
+        from rich.text import Text
+        from rich.columns import Columns
 
         # Красивое приветствие
         self.console.print(Panel.fit(
@@ -57,26 +58,57 @@ class UIManager:
             padding=(1, 2)
         ))
 
-        # 1. Выбор языка (как в основном интерфейсе)
+        # 1. Выбор языка
         self._setup_language()
 
-        # 2. Выбор рабочей директории (как в основном интерфейсе)
+        # 2. Выбор рабочей директории
         self._setup_work_directory()
 
         # 3. Настройка префикса веток
         self._setup_branch_prefix()
 
-        # Итоговое сообщение
+        # Итоговое сообщение с использованием Columns для красивого расположения
+        summary = Columns([
+            Panel(
+                f"[bold]Язык:[/]\n{self._get_current_language_display()}",
+                border_style="blue"
+            ),
+            Panel(
+                f"[bold]Директория:[/]\n[cyan]{self.config.branch_settings['WorkDir']}[/]",
+                border_style="blue"
+            ),
+            Panel(
+                f"[bold]Префикс:[/]\n[cyan]{self.config.branch_settings['Prefix']}[/]",
+                border_style="blue"
+            )
+        ], expand=True)
+
         self.console.print(Panel.fit(
-            f"[bold green]✓ Настройка завершена![/]\n"
-            f"Язык: {self._get_current_language_display()}\n"
-            f"Директория: [cyan]{self.config.branch_settings['WorkDir']}[/]\n"
-            f"Префикс веток: [cyan]{self.config.branch_settings['Prefix']}[/]",
+            "[bold green]✓ Настройка завершена успешно![/]",
             border_style="green",
             padding=(1, 2)
         ))
+        self.console.print(summary)
 
-        self._restart_application()
+        # Сообщение о перезапуске с иконкой и стилизацией
+        restart_message = Text.assemble(
+            ("⚠ ", "bold yellow"),
+            ("Для применения настроек ", ""),
+            ("перезапустите скрипт", "bold yellow"),
+            (" вручную\n", ""),
+            ("Команда: ", "dim"),
+            ("python git_tools.py", "bold cyan")
+        )
+
+        self.console.print(Panel(
+            restart_message,
+            title="[yellow]Действие требуется[/yellow]",
+            border_style="yellow",
+            padding=(1, 2),
+            width=60
+        ))
+
+        exit(0)
 
     def _setup_language(self):
         """Красивый выбор языка с автоматическим определением доступных языков"""
@@ -155,16 +187,28 @@ class UIManager:
 
                 if work_dir:
                     if os.path.isdir(os.path.join(work_dir, ".git")):
+                        # Сохраняем директорию в настройках
                         self.config.branch_settings["WorkDir"] = work_dir
-                        self.config.dir_history = [work_dir]
+                        # Обновляем историю директорий
+                        if work_dir in self.config.dir_history:
+                            self.config.dir_history.remove(work_dir)
+                        self.config.dir_history.insert(0, work_dir)
+                        # Сохраняем настройки в файл
+                        self.config.save_settings()
                         break
                     self.console.print("[red]Выбранная папка не содержит git-репозиторий![/red]")
 
             elif choice == '2':
                 work_dir = input("Введите полный путь к папке: ").strip()
                 if os.path.isdir(work_dir) and os.path.isdir(os.path.join(work_dir, ".git")):
+                    # Сохраняем директорию в настройках
                     self.config.branch_settings["WorkDir"] = work_dir
-                    self.config.dir_history = [work_dir]
+                    # Обновляем историю директорий
+                    if work_dir in self.config.dir_history:
+                        self.config.dir_history.remove(work_dir)
+                    self.config.dir_history.insert(0, work_dir)
+                    # Сохраняем настройки в файл
+                    self.config.save_settings()
                     break
                 self.console.print("[red]Указанная папка не содержит git-репозиторий![/red]")
 
@@ -185,13 +229,6 @@ class UIManager:
         prefix = input(f"Введите префикс (например, dl/TTSH-): ").strip() or "dl/TTSH-"
         self.config.branch_settings["Prefix"] = prefix
         self.config.prefix_history = [prefix]
-
-    def _restart_application(self):
-        """Перезапускает приложение"""
-        import sys
-        import os
-        self.console.print("\n[green]Перезапуск приложения...[/green]\n")
-        os.execv(sys.executable, ['python'] + sys.argv)
 
     def _get_current_language_display(self):
         """Возвращает отформатированное отображение текущего языка"""
@@ -214,6 +251,87 @@ class UIManager:
             readline.write_history_file(self.history_file)
         except Exception:
             pass
+
+    def show_amiga_banner(self):
+        """Идеально выровненный радужный GITTOOLS"""
+        from rich.text import Text
+        from rich.console import Console
+
+        console = Console()
+
+        # Фиксированная ширина для каждой буквы (9 символов)
+        letters = {
+            'G': [
+                " ██████╗ ",  # 9 символов
+                "██╔════╝ ",
+                "██║  ███╗",
+                "██║   ██║",
+                "╚██████╔╝",
+                " ╚═════╝ "
+            ],
+            'I': [
+                "    ██╗  ",  # 9 символов
+                "    ██║  ",
+                "    ██║  ",
+                "    ██║  ",
+                "    ██║  ",
+                "    ╚═╝  "
+            ],
+            'T': [
+                "████████╗",
+                "╚══██╔══╝",
+                "   ██║   ",
+                "   ██║   ",
+                "   ██║   ",
+                "   ╚═╝   "
+            ],
+            'O': [
+                " ██████╗ ",
+                "██╔═══██╗",
+                "██║   ██║",
+                "██║   ██║",
+                "╚██████╔╝",
+                " ╚═════╝ "
+            ],
+            'L': [
+                "██╗      ",  # 9 символов
+                "██║      ",
+                "██║      ",
+                "██║      ",
+                "███████╗ ",
+                "╚══════╝ "
+            ],
+            'S': [
+                " ██████╗ ",
+                "██╔════╝ ",
+                "╚█████╗  ",
+                " ╚═══██╗ ",
+                "██████╔╝",
+                "╚═════╝ "
+            ]
+        }
+
+        # Радужные цвета
+        colors = [
+            "#FF0000", "#FF7F00", "#FFFF00",
+            "#00FF00", "#0000FF", "#9400D3"
+        ]
+
+        # Собираем строки
+        banner_lines = []
+        for row in range(6):
+            line = []
+            for char in "GITTOOLS":
+                line.append(letters[char][row])
+            banner_lines.append("".join(line))
+
+        # Выводим с цветами
+        banner = Text()
+        for i, line in enumerate(banner_lines):
+            banner.append(line, style=colors[i])
+            banner.append("\n")
+
+        console.print(banner, justify="center")
 
     def show_error(self, message: str):
         """Показывает сообщение об ошибке"""
