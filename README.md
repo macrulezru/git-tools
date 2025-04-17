@@ -17,7 +17,7 @@
 pip install rich pyreadline
 
 # 2. Запустите менеджер
-python git_manager.py
+python git_tools.py
 ```
 
 ## 🎮 Основные команды
