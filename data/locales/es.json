@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "language_name": "Español",
+    "native_name": "Español",
+    "language_code": "es",
+    "flag": "🇪🇸",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Gestor de Ramas Git - Versión Python",
+    "help_prompt": "Escribe 'help' para ver la lista de comandos\n",
+    "quit_prompt": "Escribe 'exit' o 'quit' para salir",
+    "closing": "Cerrando...",
+    "welcome": "Bienvenido a Git Branch Manager",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "errors": {
+    "settings_load": "Error al cargar configuraciones: {}",
+    "settings_save": "Error al guardar configuraciones: {}",
+    "directory_not_exists": "El directorio no existe: {}",
+    "not_git_repo": "¡Esto no es un repositorio git!",
+    "invalid_choice": "Opción inválida. Ingrese un número o 'q' para salir.",
+    "unknown_command": "Comando desconocido: {}",
+    "git_command_failed": "Comando git falló: {}",
+    "no_branches": "No hay ramas locales.",
+    "no_commit_data": "No hay datos para mostrar",
+    "no_status": "No hay estado git disponible",
+    "windows_only": "La selección por explorador solo está disponible en Windows",
+    "no_current_branch": "No se pudo detectar la rama actual",
+    "no_remotes": "No hay repositorios remotos configurados",
+    "unknown": "error desconocido",
+    "command_failed": "Error al ejecutar el comando: {}",
+    "use_help": "Usa 'help', 'h' o 'm' para ver la lista de comandos"
+  },
+  "branch": {
+    "create_title": "Crear nueva rama",
+    "prefix_label": "Prefijo: {prefix}",
+    "base_label": "Rama base: {branch}",
+    "list_title": "Lista de Ramas",
+    "number": "#",
+    "name": "Rama",
+    "last_commit": "Último Commit",
+    "author": "Autor",
+    "select_prompt": "Selecciona rama por número (1-{}) o 'q' para salir: ",
+    "switch_success": "✓ Cambiado exitosamente a rama: {}",
+    "switch_failed": "✗ Falló el cambio. Esperado: {}, actual: {}",
+    "checkout_error": "✗ Error en checkout",
+    "exists_switch": "¡La rama existe! ¿Cambiar? (y/N): ",
+    "invalid_name": "❌ ¡Nombre inválido!",
+    "invalid_task": "❌ ¡Número de tarea inválido!",
+    "enter_task_number": "Ingresa número de tarea (dígitos): ",
+    "enter_name": "Ingresa nombre (a-z, 0-9, -): ",
+    "delete_confirm": "¿Seguro que quieres eliminar la rama '{}'? [y/N]: ",
+    "deleted": "✓ Rama '{}' eliminada",
+    "delete_remote": "¿Eliminar también rama remota '{}'? [y/N]: ",
+    "delete_failed": "No se pudo eliminar rama '{}'",
+    "current_delete": "¡No se puede eliminar la rama actual!",
+    "created": "✓ Rama creada exitosamente: {}",
+    "not_switched": "⚠️ Rama creada pero no cambiada",
+    "current": "└ Rama actual: {}"
+  },
+  "prefix": {
+    "title": "Selección de Prefijo de Ramas",
+    "prefix": "Prefijo",
+    "changed": "Prefijo cambiado a: {}",
+    "enter_new": "Ingresa nuevo prefijo (ej: feature/ABC-): ",
+    "clear_confirm": "¿Seguro que quieres limpiar el historial de prefijos? (y/N): ",
+    "cleared": "Historial de prefijos limpiado"
+  },
+  "directory": {
+    "title": "Selección de Directorio de Trabajo",
+    "path": "Directorio",
+    "changed": "Directorio de trabajo cambiado a: {}",
+    "enter_new": "Ingresa ruta del directorio: ",
+    "select_gui": "Seleccionar con explorador"
+  },
+  "remote": {
+    "title": "Cambiar Repositorio Remoto Predeterminado",
+    "current": "Repositorio remoto actual: {}",
+    "available": "Repositorios disponibles: {}",
+    "enter_new": "Ingresa nuevo valor: ",
+    "changed": "✓ Repositorio remoto cambiado a: {}"
+  },
+  "reset": {
+    "master_confirm": "¿Seguro que quieres REINICIAR rama principal (HARD)? [y/N]: ",
+    "unstable_confirm": "¿Seguro que quieres REINICIAR rama unstable (HARD)? [y/N]: ",
+    "soft_confirm": "¿Seguro que quieres REINICIO SUAVE a rama principal? [y/N]: ",
+    "rebase_confirm": "¿Seguro que quieres REBASE desde rama principal? [y/N]: ",
+    "soft_success": "✓ Reinicio suave a {} completado.",
+    "rebase_success": "✓ Rebase desde {} completado.",
+    "rebase_error": "✗ Error en rebase. Resuelve conflictos manualmente.",
+    "master_message": "{} ¡REINICIADA! Rama reiniciada con furia ardiente!",
+    "unstable_message": "¡UNSTABLE RENACIDA! ¡Rama renació del caos!"
+  },
+  "history": {
+    "title": "⎇ Historial de Commits",
+    "hash": "Hash",
+    "message": "Mensaje",
+    "author": "Autor",
+    "date": "Fecha",
+    "refs": "Ramas",
+    "clear_confirm": "¿Seguro que quieres limpiar todo el historial? (y/N): ",
+    "cleared": "Todo el historial limpiado"
+  },
+  "status": {
+    "title": "Estado del Repositorio"
+  },
+  "menu": {
+    "main_title": "Menú de Acciones Git",
+    "keys_title": "Atajos de Teclado",
+    "key_column": "Tecla",
+    "action_column": "Acción",
+    "description_column": "Descripción",
+    "language_title": "Selección de Idioma",
+    "language": "Idioma",
+    "select_language": "Selecciona idioma:",
+    "language_changed": "Idioma cambiado a: {}",
+    "change_language": "Cambiar idioma",
+    "select_action": "Selecciona acción (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "Reiniciar rama principal (hard)",
+    "reset_unstable": "Reiniciar rama unstable (hard)",
+    "soft_reset": "Reinicio suave a rama principal (--soft)",
+    "rebase": "Rebase desde rama principal",
+    "new_branch": "Crear nueva rama desde principal",
+    "show_branches": "Mostrar ramas",
+    "change_prefix": "Cambiar prefijo de ramas",
+    "show_log": "Mostrar historial de commits (últimos 20)",
+    "show_status": "Mostrar estado del repositorio",
+    "delete_branch": "Eliminar rama",
+    "change_directory": "Cambiar directorio de trabajo",
+    "change_remote": "Cambiar repositorio remoto",
+    "show_menu": "Mostrar menú de comandos",
+    "exit": "Salir",
+    "no_languages": "¡No se encontraron idiomas disponibles!",
+    "action_select": "Selecciona acción (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "Selecciona rama (1-{}): ",
+    "prefix_select": "Selecciona prefijo (1-{}/N/q): ",
+    "dir_select": "Selecciona directorio (1-{}/N/B/q): ",
+    "select_prefix": "Seleccione prefijo:",
+    "language_change_cancelled": "Cambio de idioma cancelado."
+  },
+  "commands": {
+    "create_branch": "Creando nueva rama",
+    "branch_from": "Rama base: {}",
+    "current_prefix": "Prefijo actual: {}",
+    "creating_branch": "Creando rama {}..."
+  },
+  "locale": {
+    "not_found": "Localización '{}' no encontrada, usando inglés",
+    "no_dir_found": "Directorio de localizaciones no encontrado: {}",
+    "loading_error": "Error cargando localización {}: {}",
+    "available_locales": "Localizaciones disponibles: {}"
+  },
+  "npm": {
+    "installing": "🔄 Instalando dependencias npm...",
+    "installed": "✓ Dependencias instaladas"
+  },
+  "ui": {
+    "try_commands": "Prueba uno de estos comandos"
+  },
+  "settings": {
+    "option": "Configuración",
+    "curren_value": "Valor actual"
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "language_name": "English",
+    "native_name": "English",
+    "language_code": "en",
+    "flag": "🇬🇧",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Git Branch Manager - Python Version",
+    "help_prompt": "Type 'help' for command list\n",
+    "quit_prompt": "Type 'exit' or 'quit' to exit",
+    "closing": "Shutting down...",
+    "welcome": "Welcome to Git Branch Manager",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "errors": {
+    "settings_load": "Error loading settings: {}",
+    "settings_save": "Error saving settings: {}",
+    "directory_not_exists": "Directory does not exist: {}",
+    "not_git_repo": "This is not a git repository!",
+    "invalid_choice": "Invalid choice. Enter a number or 'q' to exit.",
+    "unknown_command": "Unknown command: {}",
+    "git_command_failed": "Git command failed: {}",
+    "no_branches": "No local branches found.",
+    "no_commit_data": "No commit data to display",
+    "no_status": "No git status available",
+    "windows_only": "File explorer selection is only available on Windows",
+    "no_current_branch": "Failed to detect current branch",
+    "no_remotes": "No git remotes configured",
+    "unknown": "unknown error",
+    "command_failed": "Command failed: {}",
+    "use_help": "Use 'help', 'h' or 'm' for command list"
+  },
+  "branch": {
+    "create_title": "Create New Branch",
+    "prefix_label": "Prefix: {prefix}",
+    "base_label": "Base branch: {branch}",
+    "list_title": "Branch List",
+    "number": "#",
+    "name": "Branch",
+    "last_commit": "Last Commit",
+    "author": "Author",
+    "select_prompt": "Select branch by number (1-{}) or 'q' to exit: ",
+    "switch_success": "✓ Switched to branch: {}",
+    "switch_failed": "✗ Switch failed. Expected: {}, current: {}",
+    "checkout_error": "✗ Checkout error",
+    "exists_switch": "Branch exists! Switch to it? (y/N): ",
+    "invalid_name": "❌ Invalid name!",
+    "invalid_task": "❌ Invalid task number!",
+    "enter_task_number": "Enter task number (digits only): ",
+    "enter_name": "Enter name (a-z, 0-9, -): ",
+    "delete_confirm": "Are you sure you want to delete branch '{}'? [y/N]: ",
+    "deleted": "✓ Branch '{}' deleted",
+    "delete_remote": "Also delete remote branch '{}'? [y/N]: ",
+    "delete_failed": "Failed to delete branch '{}'",
+    "current_delete": "Cannot delete current branch!",
+    "created": "✓ Branch created: {}",
+    "not_switched": "⚠️ Branch created but not switched",
+    "current": "└ Current branch: {}"
+  },
+  "prefix": {
+    "title": "Branch Prefix Selection",
+    "prefix": "Prefix",
+    "changed": "Prefix changed to: {}",
+    "enter_new": "Enter new prefix (e.g., feature/ABC-): ",
+    "clear_confirm": "Clear prefix history? (y/N): ",
+    "cleared": "Prefix history cleared"
+  },
+  "directory": {
+    "title": "Working Directory Selection",
+    "path": "Directory",
+    "changed": "Working directory changed to: {}",
+    "enter_new": "Enter directory path: ",
+    "select_gui": "Select via file explorer"
+  },
+  "remote": {
+    "title": "Change Default Remote",
+    "current": "Current remote: {}",
+    "available": "Available remotes: {}",
+    "enter_new": "Enter new remote: ",
+    "changed": "✓ Remote changed to: {}"
+  },
+  "reset": {
+    "master_confirm": "Reset MAIN branch (HARD)? [y/N]: ",
+    "unstable_confirm": "Reset UNSTABLE branch (HARD)? [y/N]: ",
+    "soft_confirm": "Soft reset to main branch? [y/N]: ",
+    "rebase_confirm": "Rebase from main branch? [y/N]: ",
+    "soft_success": "✓ Soft reset to {} completed.",
+    "rebase_success": "✓ Rebase from {} successful.",
+    "rebase_error": "✗ Rebase error. Resolve conflicts manually.",
+    "master_message": "{} RESET! Branch reset with fiery rage!",
+    "unstable_message": "UNSTABLE REBORN! Branch reborn through chaos!"
+  },
+  "history": {
+    "title": "⎇ Commit History",
+    "hash": "Hash",
+    "message": "Message",
+    "author": "Author",
+    "date": "Date",
+    "refs": "Refs",
+    "clear_confirm": "Clear all history? (y/N): ",
+    "cleared": "All history cleared"
+  },
+  "status": {
+    "title": "Repository Status"
+  },
+  "menu": {
+    "main_title": "Git Actions Menu",
+    "keys_title": "Key Bindings",
+    "key_column": "Key",
+    "action_column": "Action",
+    "description_column": "Description",
+    "language_title": "Language Selection",
+    "language": "Language",
+    "select_language": "Select language:",
+    "language_changed": "Language changed to: {}",
+    "change_language": "Change Language",
+    "select_action": "Select action (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "Reset main branch (hard)",
+    "reset_unstable": "Reset unstable branch (hard)",
+    "soft_reset": "Soft reset to main branch (--soft)",
+    "rebase": "Rebase from main branch",
+    "new_branch": "Create new branch from main",
+    "show_branches": "Show branches",
+    "change_prefix": "Change branch prefix",
+    "show_log": "Show commit history (last 20)",
+    "show_status": "Show repository status",
+    "delete_branch": "Delete branch",
+    "change_directory": "Change working directory",
+    "change_remote": "Change default remote",
+    "show_menu": "Show command menu",
+    "exit": "Exit",
+    "no_languages": "No available languages found!",
+    "action_select": "Select action (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "Select branch (1-{}): ",
+    "prefix_select": "Select prefix (1-{}/N/q): ",
+    "dir_select": "Select directory (1-{}/N/B/q): ",
+    "select_prefix": "Select prefix:",
+    "language_change_cancelled": "Language change cancelled."
+  },
+  "commands": {
+    "create_branch": "Creating new branch",
+    "branch_from": "Base branch: {}",
+    "current_prefix": "Current prefix: {}",
+    "creating_branch": "Creating branch {}..."
+  },
+  "locale": {
+    "not_found": "Locale '{}' not found, using English",
+    "no_dir_found": "Locales directory not found: {}",
+    "loading_error": "Error loading locale {}: {}",
+    "available_locales": "Available locales: {}"
+  },
+  "npm": {
+    "installing": "🔄 Installing npm dependencies...",
+    "installed": "✓ Dependencies installed"
+  },
+  "ui": {
+    "try_commands": "Try one of these commands"
+  },
+  "settings": {
+    "option": "Setting",
+    "curren_value": "Current value"
+  }
+}

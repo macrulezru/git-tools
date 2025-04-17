@@ -1,0 +1,170 @@
+{
+  "_meta": {
+    "language_name": "Deutsch",
+    "native_name": "Deutsch",
+    "language_code": "de",
+    "flag": "🇩🇪",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Git Branch Manager - Python Version",
+    "help_prompt": "Geben Sie 'help' für Befehlsliste ein\n",
+    "quit_prompt": "Geben Sie 'exit' oder 'quit' zum Beenden ein",
+    "closing": "Wird beendet...",
+    "welcome": "Willkommen beim Git Branch Manager",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "locale": {
+    "not_found": "Locale '{}' nicht gefunden, Englisch wird verwendet",
+    "no_dir_found": "Locale-Verzeichnis nicht gefunden: {}",
+    "loading_error": "Fehler beim Laden der Locale {}: {}",
+    "available_locales": "Verfügbare Locales: {}"
+  },
+  "errors": {
+    "error": "Fehler",
+    "settings_load": "Fehler beim Laden der Einstellungen: {}",
+    "settings_save": "Fehler beim Speichern der Einstellungen: {}",
+    "directory_not_exists": "Verzeichnis existiert nicht: {}",
+    "not_git_repo": "Dies ist kein Git-Repository!",
+    "invalid_choice": "Ungültige Auswahl. Geben Sie eine Nummer oder 'q' zum Beenden ein.",
+    "unknown_command": "Unbekannter Befehl: {}",
+    "git_command_failed": "Git-Befehl fehlgeschlagen: {}",
+    "no_branches": "Keine lokalen Branches gefunden.",
+    "no_commit_data": "Keine Commit-Daten zum Anzeigen",
+    "no_status": "Kein Git-Status verfügbar",
+    "windows_only": "Datei-Explorer-Auswahl nur unter Windows verfügbar",
+    "no_current_branch": "Aktueller Branch konnte nicht erkannt werden",
+    "no_remotes": "Keine Git-Remotes konfiguriert",
+    "unknown": "unbekannter Fehler",
+    "command_failed": "Befehl fehlgeschlagen: {}",
+    "use_help": "Verwenden Sie 'help', 'h' oder 'm' für Befehlsliste",
+    "npm_dependencies_installing": "Installiere npm-Abhängigkeiten...",
+    "npm_dependencies_installed": "Abhängigkeiten installiert"
+  },
+  "branch": {
+    "create_title": "Neuen Branch erstellen",
+    "prefix_label": "Präfix: {prefix}",
+    "base_label": "Basis-Branch: {branch}",
+    "list_title": "Branch-Liste",
+    "number": "№",
+    "name": "Branch",
+    "last_commit": "Letzter Commit",
+    "author": "Autor",
+    "select_prompt": "Branch nach Nummer auswählen (1-{}) oder 'q' zum Beenden: ",
+    "switch_success": "✓ Erfolgreich zu Branch gewechselt: {}",
+    "switch_failed": "✗ Wechsel fehlgeschlagen. Erwartet: {}, aktuell: {}",
+    "checkout_error": "✗ Checkout-Fehler",
+    "exists_switch": "Branch existiert! Zu ihm wechseln? (y/N): ",
+    "invalid_name": "❌ Ungültiger Name!",
+    "invalid_task": "❌ Ungültige Aufgaben-Nummer!",
+    "enter_task_number": "Aufgaben-Nummer eingeben (Ziffern): ",
+    "enter_name": "Namen eingeben (a-z, 0-9, -): ",
+    "delete_confirm": "Sind Sie sicher, dass Sie den Branch '{}' löschen möchten? [y/N]: ",
+    "deleted": "✓ Branch '{}' gelöscht",
+    "delete_remote": "Auch Remote-Branch '{}' löschen? [y/N]: ",
+    "delete_failed": "Löschen des Branches '{}' fehlgeschlagen",
+    "current_delete": "Aktuellen Branch kann nicht gelöscht werden!",
+    "created": "✓ Branch erfolgreich erstellt: {}",
+    "not_switched": "⚠️ Branch erstellt, aber nicht gewechselt",
+    "current": "└ Aktueller Branch: {}"
+  },
+  "prefix": {
+    "title": "Branch-Präfix-Auswahl",
+    "prefix": "Präfix",
+    "changed": "Präfix geändert zu: {}",
+    "enter_new": "Neues Präfix eingeben (z.B. feature/ABC-): ",
+    "clear_confirm": "Präfix-Verlauf löschen? (y/N): ",
+    "cleared": "Präfix-Verlauf gelöscht"
+  },
+  "directory": {
+    "title": "Arbeitsverzeichnis-Auswahl",
+    "path": "Verzeichnis",
+    "changed": "Arbeitsverzeichnis geändert zu: {}",
+    "enter_new": "Verzeichnispfad eingeben: ",
+    "select_gui": "Mit Datei-Explorer auswählen"
+  },
+  "remote": {
+    "title": "Standard-Remote-Repository ändern",
+    "current": "Aktuelles Remote-Repository: {}",
+    "available": "Verfügbare Repositories: {}",
+    "enter_new": "Neuen Wert eingeben: ",
+    "changed": "✓ Remote-Repository geändert zu: {}"
+  },
+  "reset": {
+    "master_confirm": "Sind Sie sicher, dass Sie den MAIN-Branch (HARD) zurücksetzen möchten? [y/N]: ",
+    "unstable_confirm": "Sind Sie sicher, dass Sie den UNSTABLE-Branch (HARD) zurücksetzen möchten? [y/N]: ",
+    "soft_confirm": "Sind Sie sicher, dass Sie einen SOFT-RESET zum Hauptbranch durchführen möchten? [y/N]: ",
+    "rebase_confirm": "Sind Sie sicher, dass Sie einen REBASE vom Hauptbranch aus durchführen möchten? [y/N]: ",
+    "soft_success": "✓ Soft-Reset zu {} abgeschlossen.",
+    "rebase_success": "✓ Rebase von {} erfolgreich.",
+    "rebase_error": "✗ Rebase-Fehler. Konflikte manuell lösen.",
+    "master_message": "{} ZURÜCKGESETZT! Branch mit feurigem Zorn zurückgesetzt!",
+    "unstable_message": "UNSTABLE WIEDERGEBOREN! Branch durch Chaos wiedergeboren!"
+  },
+  "history": {
+    "title": "⎇ Commit-Verlauf",
+    "hash": "Hash",
+    "message": "Nachricht",
+    "author": "Autor",
+    "date": "Datum",
+    "refs": "Branches",
+    "clear_confirm": "Gesamten Verlauf löschen? (y/N): ",
+    "cleared": "Gesamter Verlauf gelöscht"
+  },
+  "status": {
+    "title": "Repository-Status"
+  },
+  "menu": {
+    "main_title": "Git-Aktionen-Menü",
+    "keys_title": "Tastenkombinationen",
+    "key_column": "Taste",
+    "action_column": "Aktion",
+    "description_column": "Beschreibung",
+    "language_title": "Sprachauswahl",
+    "language": "Sprache",
+    "select_language": "Sprache auswählen:",
+    "select_prefix": "Präfix auswählen:",
+    "language_changed": "Sprache geändert zu: {}",
+    "change_language": "Sprache ändern",
+    "select_action": "Aktion auswählen (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "Hauptbranch zurücksetzen (hard)",
+    "reset_unstable": "Unstable-Branch zurücksetzen (hard)",
+    "soft_reset": "Soft-Reset zum Hauptbranch (--soft)",
+    "rebase": "Rebase vom Hauptbranch aus",
+    "new_branch": "Neuen Branch vom Hauptbranch erstellen",
+    "show_branches": "Branches anzeigen",
+    "change_prefix": "Branch-Präfix ändern",
+    "show_log": "Commit-Verlauf anzeigen (letzte 20)",
+    "show_status": "Repository-Status anzeigen",
+    "delete_branch": "Branch löschen",
+    "change_directory": "Arbeitsverzeichnis ändern",
+    "change_remote": "Standard-Remote-Repository ändern",
+    "show_menu": "Befehlsmenü anzeigen",
+    "exit": "Beenden",
+    "no_languages": "Keine verfügbaren Sprachen gefunden!",
+    "action_select": "Aktion auswählen (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "Branch auswählen (1-{}): ",
+    "prefix_select": "Präfix auswählen (1-{}/N/q): ",
+    "dir_select": "Verzeichnis auswählen (1-{}/N/B/q): ",
+    "language_change_cancelled": "Sprachänderung abgebrochen."
+  },
+  "commands": {
+    "create_branch": "Erstelle neuen Branch",
+    "branch_from": "Basis-Branch: {}",
+    "current_prefix": "Aktuelles Präfix: {}",
+    "creating_branch": "Erstelle Branch {}..."
+  },
+  "npm": {
+    "installing": "🔄 Installiere npm-Abhängigkeiten...",
+    "installed": "✓ Abhängigkeiten installiert"
+  },
+  "ui": {
+    "try_commands": "Versuchen Sie einen dieser Befehle"
+  },
+  "settings": {
+    "option": "Einstellung",
+    "curren_value": "Aktueller Wert"
+  }
+}

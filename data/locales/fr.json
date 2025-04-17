@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "language_name": "Français",
+    "native_name": "Français",
+    "language_code": "fr",
+    "flag": "🇫🇷",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Gestionnaire de Branches Git - Version Python",
+    "help_prompt": "Tapez 'help' pour la liste des commandes\n",
+    "quit_prompt": "Tapez 'exit' ou 'quit' pour quitter",
+    "closing": "Fermeture...",
+    "welcome": "Bienvenue dans Git Branch Manager",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "errors": {
+    "settings_load": "Erreur de chargement des paramètres: {}",
+    "settings_save": "Erreur de sauvegarde des paramètres: {}",
+    "directory_not_exists": "Le répertoire n'existe pas: {}",
+    "not_git_repo": "Ce n'est pas un dépôt git !",
+    "invalid_choice": "Choix invalide. Entrez un numéro ou 'q' pour quitter.",
+    "unknown_command": "Commande inconnue: {}",
+    "git_command_failed": "Commande git échouée: {}",
+    "no_branches": "Aucune branche locale.",
+    "no_commit_data": "Aucune donnée à afficher",
+    "no_status": "Aucun statut git disponible",
+    "windows_only": "La sélection par explorateur est disponible uniquement sous Windows",
+    "no_current_branch": "Impossible de détecter la branche actuelle",
+    "no_remotes": "Aucun dépôt distant configuré",
+    "unknown": "erreur inconnue",
+    "command_failed": "Erreur d'exécution de commande: {}",
+    "use_help": "Utilisez 'help', 'h' ou 'm' pour la liste des commandes"
+  },
+  "branch": {
+    "create_title": "Créer une nouvelle branche",
+    "prefix_label": "Préfixe: {prefix}",
+    "base_label": "Branche de base: {branch}",
+    "list_title": "Liste des Branches",
+    "number": "#",
+    "name": "Branche",
+    "last_commit": "Dernier Commit",
+    "author": "Auteur",
+    "select_prompt": "Sélectionnez une branche par numéro (1-{}) ou 'q' pour quitter: ",
+    "switch_success": "✓ Basculé avec succès vers la branche: {}",
+    "switch_failed": "✗ Échec du basculement. Attendue: {}, actuelle: {}",
+    "checkout_error": "✗ Erreur de checkout",
+    "exists_switch": "La branche existe ! Basculer ? (y/N): ",
+    "invalid_name": "❌ Nom invalide !",
+    "invalid_task": "❌ Numéro de tâche invalide !",
+    "enter_task_number": "Entrez le numéro de tâche (chiffres): ",
+    "enter_name": "Entrez le nom (a-z, 0-9, -): ",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer la branche '{}' ? [y/N]: ",
+    "deleted": "✓ Branche '{}' supprimée",
+    "delete_remote": "Supprimer également la branche distante '{}' ? [y/N]: ",
+    "delete_failed": "Échec de la suppression de la branche '{}'",
+    "current_delete": "Impossible de supprimer la branche actuelle !",
+    "created": "✓ Branche créée avec succès: {}",
+    "not_switched": "⚠️ Branche créée mais non basculée",
+    "current": "└ Branche actuelle: {}"
+  },
+  "prefix": {
+    "title": "Sélection du Préfixe de Branche",
+    "prefix": "Préfixe",
+    "changed": "Préfixe changé en: {}",
+    "enter_new": "Entrez un nouveau préfixe (ex: feature/ABC-): ",
+    "clear_confirm": "Êtes-vous sûr de vouloir effacer l'historique des préfixes ? (y/N): ",
+    "cleared": "Historique des préfixes effacé"
+  },
+  "directory": {
+    "title": "Sélection du Répertoire de Travail",
+    "path": "Répertoire",
+    "changed": "Répertoire de travail changé en: {}",
+    "enter_new": "Entrez le chemin du répertoire: ",
+    "select_gui": "Sélectionner avec l'explorateur"
+  },
+  "remote": {
+    "title": "Changer le Dépôt Distant par Défaut",
+    "current": "Dépôt distant actuel: {}",
+    "available": "Dépôts disponibles: {}",
+    "enter_new": "Entrez la nouvelle valeur: ",
+    "changed": "✓ Dépôt distant changé en: {}"
+  },
+  "reset": {
+    "master_confirm": "Êtes-vous sûr de vouloir RÉINITIALISER la branche principale (HARD) ? [y/N]: ",
+    "unstable_confirm": "Êtes-vous sûr de vouloir RÉINITIALISER la branche unstable (HARD) ? [y/N]: ",
+    "soft_confirm": "Êtes-vous sûr de vouloir une RÉINITIALISATION DOUCE vers la branche principale ? [y/N]: ",
+    "rebase_confirm": "Êtes-vous sûr de vouloir un REBASE depuis la branche principale ? [y/N]: ",
+    "soft_success": "✓ Réinitialisation douce vers {} effectuée.",
+    "rebase_success": "✓ Rebase depuis {} réussi.",
+    "rebase_error": "✗ Erreur de rebase. Résolvez les conflits manuellement.",
+    "master_message": "{} RÉINITIALISÉE ! Branche réinitialisée avec une rage ardente !",
+    "unstable_message": "UNSTABLE RENAISSANCE ! Branche renaît du chaos !"
+  },
+  "history": {
+    "title": "⎇ Historique des Commits",
+    "hash": "Hash",
+    "message": "Message",
+    "author": "Auteur",
+    "date": "Date",
+    "refs": "Branches",
+    "clear_confirm": "Êtes-vous sûr de vouloir effacer tout l'historique ? (y/N): ",
+    "cleared": "Tout l'historique effacé"
+  },
+  "status": {
+    "title": "Statut du Dépôt"
+  },
+  "menu": {
+    "main_title": "Menu d'Actions Git",
+    "keys_title": "Raccourcis Clavier",
+    "key_column": "Touche",
+    "action_column": "Action",
+    "description_column": "Description",
+    "language_title": "Sélection de la Langue",
+    "language": "Langue",
+    "select_language": "Sélectionnez la langue:",
+    "language_changed": "Langue changée en: {}",
+    "change_language": "Changer la langue",
+    "select_action": "Sélectionnez une action (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "Réinitialiser branche principale (hard)",
+    "reset_unstable": "Réinitialiser branche unstable (hard)",
+    "soft_reset": "Réinitialisation douce vers branche principale (--soft)",
+    "rebase": "Rebase depuis branche principale",
+    "new_branch": "Créer nouvelle branche depuis principale",
+    "show_branches": "Afficher les branches",
+    "change_prefix": "Changer le préfixe des branches",
+    "show_log": "Afficher l'historique des commits (20 derniers)",
+    "show_status": "Afficher le statut du dépôt",
+    "delete_branch": "Supprimer une branche",
+    "change_directory": "Changer le répertoire de travail",
+    "change_remote": "Changer le dépôt distant",
+    "show_menu": "Afficher le menu de commandes",
+    "exit": "Quitter",
+    "no_languages": "Aucune langue disponible trouvée !",
+    "action_select": "Sélectionnez une action (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "Sélectionnez une branche (1-{}): ",
+    "prefix_select": "Sélectionnez un préfixe (1-{}/N/q): ",
+    "dir_select": "Sélectionnez un répertoire (1-{}/N/B/q): ",
+    "select_prefix": "Sélectionnez le préfixe:",
+    "language_change_cancelled": "Changement de langue annulé."
+  },
+  "commands": {
+    "create_branch": "Création d'une nouvelle branche",
+    "branch_from": "Branche de base: {}",
+    "current_prefix": "Préfixe actuel: {}",
+    "creating_branch": "Création de la branche {}..."
+  },
+  "locale": {
+    "not_found": "Locale '{}' introuvable, utilisation de l'anglais",
+    "no_dir_found": "Répertoire des locales introuvable: {}",
+    "loading_error": "Erreur de chargement de la locale {}: {}",
+    "available_locales": "Locales disponibles: {}"
+  },
+  "npm": {
+    "installing": "🔄 Installation des dépendances npm...",
+    "installed": "✓ Dépendances installées"
+  },
+  "ui": {
+    "try_commands": "Essayez l'une de ces commandes"
+  },
+  "settings": {
+    "option": "Paramètre",
+    "curren_value": "Valeur actuelle"
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "language_name": "日本語",
+    "native_name": "日本語",
+    "language_code": "ja",
+    "flag": "🇯🇵",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Gitブランチマネージャー - Python版",
+    "help_prompt": "コマンド一覧は'help'と入力\n",
+    "quit_prompt": "終了するには'exit'または'quit'と入力",
+    "closing": "終了しています...",
+    "welcome": "Git Branch Managerへようこそ",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "errors": {
+    "settings_load": "設定の読み込みエラー: {}",
+    "settings_save": "設定の保存エラー: {}",
+    "directory_not_exists": "ディレクトリが存在しません: {}",
+    "not_git_repo": "これはGitリポジトリではありません！",
+    "invalid_choice": "無効な選択です。数字または'q'を入力してください。",
+    "unknown_command": "不明なコマンド: {}",
+    "git_command_failed": "Gitコマンドが失敗しました: {}",
+    "no_branches": "ローカルブランチがありません。",
+    "no_commit_data": "表示するコミットデータがありません",
+    "no_status": "Gitステータスが利用できません",
+    "windows_only": "ファイルエクスプローラ選択はWindowsのみ利用可能",
+    "no_current_branch": "現在のブランチを検出できませんでした",
+    "no_remotes": "Gitリモートが設定されていません",
+    "unknown": "不明なエラー",
+    "command_failed": "コマンドが失敗しました: {}",
+    "use_help": "'help'、'h'または'm'でコマンド一覧を表示"
+  },
+  "branch": {
+    "create_title": "新しいブランチの作成",
+    "prefix_label": "プレフィックス: {prefix}",
+    "base_label": "ベースブランチ: {branch}",
+    "list_title": "ブランチ一覧",
+    "number": "番号",
+    "name": "ブランチ",
+    "last_commit": "最終コミット",
+    "author": "作者",
+    "select_prompt": "ブランチを番号で選択 (1-{}) または 'q'で終了: ",
+    "switch_success": "✓ ブランチを切り替えました: {}",
+    "switch_failed": "✗ 切り替えに失敗。期待: {}, 現在: {}",
+    "checkout_error": "✗ チェックアウトエラー",
+    "exists_switch": "ブランチが存在します！切り替えますか？ (y/N): ",
+    "invalid_name": "❌ 無効な名前です！",
+    "invalid_task": "❌ 無効なタスク番号です！",
+    "enter_task_number": "タスク番号を入力 (数字のみ): ",
+    "enter_name": "名前を入力 (a-z, 0-9, -): ",
+    "delete_confirm": "ブランチ'{}'を削除しますか？ [y/N]: ",
+    "deleted": "✓ ブランチ'{}'を削除しました",
+    "delete_remote": "リモートブランチ'{}'も削除しますか？ [y/N]: ",
+    "delete_failed": "ブランチ'{}'の削除に失敗しました",
+    "current_delete": "現在のブランチは削除できません！",
+    "created": "✓ ブランチを作成しました: {}",
+    "not_switched": "⚠️ ブランチは作成されましたが切り替わりませんでした",
+    "current": "└ 現在のブランチ: {}"
+  },
+  "prefix": {
+    "title": "ブランチプレフィックス選択",
+    "prefix": "プレフィックス",
+    "changed": "プレフィックスを変更しました: {}",
+    "enter_new": "新しいプレフィックスを入力 (例: feature/ABC-): ",
+    "clear_confirm": "プレフィックスの履歴をクリアしますか？ (y/N): ",
+    "cleared": "プレフィックスの履歴をクリアしました"
+  },
+  "directory": {
+    "title": "作業ディレクトリ選択",
+    "path": "ディレクトリ",
+    "changed": "作業ディレクトリを変更しました: {}",
+    "enter_new": "ディレクトリパスを入力: ",
+    "select_gui": "ファイルエクスプローラで選択"
+  },
+  "remote": {
+    "title": "デフォルトリモートの変更",
+    "current": "現在のリモート: {}",
+    "available": "利用可能なリモート: {}",
+    "enter_new": "新しいリモートを入力: ",
+    "changed": "✓ リモートを変更しました: {}"
+  },
+  "reset": {
+    "master_confirm": "メインブランチをリセット (HARD) しますか？ [y/N]: ",
+    "unstable_confirm": "unstableブランチをリセット (HARD) しますか？ [y/N]: ",
+    "soft_confirm": "メインブランチへソフトリセットしますか？ [y/N]: ",
+    "rebase_confirm": "メインブランチからリベースしますか？ [y/N]: ",
+    "soft_success": "✓ {}へソフトリセットしました。",
+    "rebase_success": "✓ {}からリベースしました。",
+    "rebase_error": "✗ リベースエラー。手動で解決してください。",
+    "master_message": "{} リセット完了！炎の怒りでリセットされました！",
+    "unstable_message": "UNSTABLE 再生！混沌を通して復活しました！"
+  },
+  "history": {
+    "title": "⎇ コミット履歴",
+    "hash": "ハッシュ",
+    "message": "メッセージ",
+    "author": "作者",
+    "date": "日付",
+    "refs": "参照",
+    "clear_confirm": "すべての履歴をクリアしますか？ (y/N): ",
+    "cleared": "すべての履歴をクリアしました"
+  },
+  "status": {
+    "title": "リポジトリステータス"
+  },
+  "menu": {
+    "main_title": "Gitアクションメニュー",
+    "keys_title": "キーバインディング",
+    "key_column": "キー",
+    "action_column": "アクション",
+    "description_column": "説明",
+    "language_title": "言語選択",
+    "language": "言語",
+    "select_language": "言語を選択:",
+    "language_changed": "言語を変更しました: {}",
+    "change_language": "言語変更",
+    "select_action": "アクションを選択 (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "メインブランチをリセット (強制)",
+    "reset_unstable": "unstableブランチをリセット (強制)",
+    "soft_reset": "メインブランチへソフトリセット (--soft)",
+    "rebase": "メインブランチからリベース",
+    "new_branch": "メインブランチから新規作成",
+    "show_branches": "ブランチを表示",
+    "change_prefix": "ブランチプレフィックスを変更",
+    "show_log": "コミット履歴を表示 (最新20件)",
+    "show_status": "リポジトリステータスを表示",
+    "delete_branch": "ブランチを削除",
+    "change_directory": "作業ディレクトリを変更",
+    "change_remote": "デフォルトリモートを変更",
+    "show_menu": "コマンドメニューを表示",
+    "exit": "終了",
+    "no_languages": "利用可能な言語が見つかりません！",
+    "action_select": "アクションを選択 (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "ブランチを選択 (1-{}): ",
+    "prefix_select": "プレフィックスを選択 (1-{}/N/q): ",
+    "dir_select": "ディレクトリを選択 (1-{}/N/B/q): ",
+    "select_prefix": "プレフィックスを選択:",
+    "language_change_cancelled": "言語の変更がキャンセルされました。"
+  },
+  "commands": {
+    "create_branch": "新しいブランチを作成",
+    "branch_from": "ベースブランチ: {}",
+    "current_prefix": "現在のプレフィックス: {}",
+    "creating_branch": "ブランチ{}を作成中..."
+  },
+  "locale": {
+    "not_found": "ロケール'{}'が見つかりません、英語を使用します",
+    "no_dir_found": "ロケールディレクトリが見つかりません: {}",
+    "loading_error": "ロケール{}の読み込みエラー: {}",
+    "available_locales": "利用可能なロケール: {}"
+  },
+  "npm": {
+    "installing": "🔄 npm依存関係をインストール中...",
+    "installed": "✓ 依存関係がインストールされました"
+  },
+  "ui": {
+    "try_commands": "これらのコマンドを試してください"
+  },
+  "settings": {
+    "option": "設定",
+    "curren_value": "現在の値"
+  }
+}

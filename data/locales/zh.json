@@ -1,0 +1,167 @@
+{
+  "_meta": {
+    "language_name": "中文",
+    "native_name": "简体中文",
+    "language_code": "zh",
+    "flag": "🇨🇳",
+    "version": "1.0",
+    "authors": ["Danil Lisin"]
+  },
+  "app": {
+    "title": "Git分支管理器 - Python版",
+    "help_prompt": "输入'help'查看命令列表\n",
+    "quit_prompt": "输入'exit'或'quit'退出",
+    "closing": "正在关闭...",
+    "welcome": "欢迎使用Git分支管理器",
+    "prompt": "gitManager -> {} [{}]> ",
+    "no_branch_prompt": "gitManager -> {}> "
+  },
+  "errors": {
+    "settings_load": "加载设置错误: {}",
+    "settings_save": "保存设置错误: {}",
+    "directory_not_exists": "目录不存在: {}",
+    "not_git_repo": "这不是Git仓库！",
+    "invalid_choice": "无效选择。请输入数字或'q'退出。",
+    "unknown_command": "未知命令: {}",
+    "git_command_failed": "Git命令失败: {}",
+    "no_branches": "没有本地分支。",
+    "no_commit_data": "没有可显示的提交数据",
+    "no_status": "没有Git状态信息",
+    "windows_only": "文件资源管理器选择仅在Windows上可用",
+    "no_current_branch": "无法检测当前分支",
+    "no_remotes": "未配置Git远程仓库",
+    "unknown": "未知错误",
+    "command_failed": "命令失败: {}",
+    "use_help": "使用'help'、'h'或'm'查看命令列表"
+  },
+  "branch": {
+    "create_title": "创建新分支",
+    "prefix_label": "前缀: {prefix}",
+    "base_label": "基础分支: {branch}",
+    "list_title": "分支列表",
+    "number": "编号",
+    "name": "分支",
+    "last_commit": "最后提交",
+    "author": "作者",
+    "select_prompt": "按编号选择分支 (1-{}) 或输入'q'退出: ",
+    "switch_success": "✓ 已切换到分支: {}",
+    "switch_failed": "✗ 切换失败。预期: {}, 当前: {}",
+    "checkout_error": "✗ 检出错误",
+    "exists_switch": "分支已存在！是否切换？ (y/N): ",
+    "invalid_name": "❌ 无效名称！",
+    "invalid_task": "❌ 无效任务编号！",
+    "enter_task_number": "输入任务编号(数字): ",
+    "enter_name": "输入名称(a-z, 0-9, -): ",
+    "delete_confirm": "确定删除分支'{}'吗？ [y/N]: ",
+    "deleted": "✓ 已删除分支'{}'",
+    "delete_remote": "是否同时删除远程分支'{}'？ [y/N]: ",
+    "delete_failed": "删除分支'{}'失败",
+    "current_delete": "不能删除当前分支！",
+    "created": "✓ 已创建分支: {}",
+    "not_switched": "⚠️ 分支已创建但未切换",
+    "current": "└ 当前分支: {}"
+  },
+  "prefix": {
+    "title": "分支前缀选择",
+    "prefix": "前缀",
+    "changed": "前缀已更改为: {}",
+    "enter_new": "输入新前缀(例如: feature/ABC-): ",
+    "clear_confirm": "清除前缀历史记录？ (y/N): ",
+    "cleared": "前缀历史记录已清除"
+  },
+  "directory": {
+    "title": "工作目录选择",
+    "path": "目录",
+    "changed": "工作目录已更改为: {}",
+    "enter_new": "输入目录路径: ",
+    "select_gui": "通过文件资源管理器选择"
+  },
+  "remote": {
+    "title": "更改默认远程仓库",
+    "current": "当前远程仓库: {}",
+    "available": "可用远程仓库: {}",
+    "enter_new": "输入新远程仓库: ",
+    "changed": "✓ 远程仓库已更改为: {}"
+  },
+  "reset": {
+    "master_confirm": "确定重置主分支(HARD)？ [y/N]: ",
+    "unstable_confirm": "确定重置unstable分支(HARD)？ [y/N]: ",
+    "soft_confirm": "确定软重置到主分支？ [y/N]: ",
+    "rebase_confirm": "确定从主分支变基？ [y/N]: ",
+    "soft_success": "✓ 已软重置到{}。",
+    "rebase_success": "✓ 已从{}变基成功。",
+    "rebase_error": "✗ 变基错误。请手动解决冲突。",
+    "master_message": "{} 已重置！带着火焰般的愤怒重置了分支！",
+    "unstable_message": "UNSTABLE 重生！通过混沌重生！"
+  },
+  "history": {
+    "title": "⎇ 提交历史",
+    "hash": "哈希",
+    "message": "消息",
+    "author": "作者",
+    "date": "日期",
+    "refs": "引用",
+    "clear_confirm": "清除所有历史记录？ (y/N): ",
+    "cleared": "所有历史记录已清除"
+  },
+  "status": {
+    "title": "仓库状态"
+  },
+  "menu": {
+    "main_title": "Git操作菜单",
+    "keys_title": "快捷键绑定",
+    "key_column": "按键",
+    "action_column": "操作",
+    "description_column": "描述",
+    "language_title": "语言选择",
+    "language": "语言",
+    "select_language": "选择语言:",
+    "language_changed": "语言已更改为: {}",
+    "change_language": "更改语言",
+    "select_action": "选择操作 (1-8, s,d,w,r,l,Q): ",
+    "reset_master": "重置主分支(强制)",
+    "reset_unstable": "重置unstable分支(强制)",
+    "soft_reset": "软重置到主分支(--soft)",
+    "rebase": "从主分支变基",
+    "new_branch": "从主分支创建新分支",
+    "show_branches": "显示分支",
+    "change_prefix": "更改分支前缀",
+    "show_log": "显示提交历史(最近20条)",
+    "show_status": "显示仓库状态",
+    "delete_branch": "删除分支",
+    "change_directory": "更改工作目录",
+    "change_remote": "更改默认远程仓库",
+    "show_menu": "显示命令菜单",
+    "exit": "退出",
+    "no_languages": "未找到可用语言！",
+    "action_select": "选择操作 (1-9,s,d,w,r,l,m,Q): ",
+    "branch_select": "选择分支 (1-{}): ",
+    "prefix_select": "选择前缀 (1-{}/N/q): ",
+    "dir_select": "选择目录 (1-{}/N/B/q): ",
+    "select_prefix": "选择前缀:",
+    "language_change_cancelled": "语言更改已取消。"
+  },
+  "commands": {
+    "create_branch": "创建新分支",
+    "branch_from": "基础分支: {}",
+    "current_prefix": "当前前缀: {}",
+    "creating_branch": "正在创建分支{}..."
+  },
+  "locale": {
+    "not_found": "未找到'{}'语言环境，使用英语",
+    "no_dir_found": "未找到语言环境目录: {}",
+    "loading_error": "加载语言环境{}错误: {}",
+    "available_locales": "可用语言环境: {}"
+  },
+  "npm": {
+    "installing": "🔄 正在安装npm依赖...",
+    "installed": "✓ 依赖已安装"
+  },
+  "ui": {
+    "try_commands": "尝试以下命令之一"
+  },
+  "settings": {
+    "option": "设置",
+    "curren_value": "当前值"
+  }
+}
