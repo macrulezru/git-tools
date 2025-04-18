@@ -6,6 +6,8 @@ from .config import ConfigManager
 from .localization import LocalizationManager  # Изменили импорт
 from .ui import UIManager
 from .commands import GitCommands
+from rich.table import Table
+from rich.box import ROUNDED
 
 class GitBranchManager:
     def __init__(self):
@@ -209,49 +211,112 @@ class GitBranchManager:
                 self.ui.show_error(self.tr('errors.invalid_choice'))
 
     def reset_master_branch(self, confirm: bool = True):
-        """Сбрасывает ветку master/main"""
+        """Сбрасывает ветку master/main с проверкой незакоммиченных изменений"""
+        # Проверяем наличие незакоммиченных изменений
+        status = self.git.run_git_command("status --porcelain")
+        if status:
+            self.ui.console.print("\n[bold yellow]⚠ Внимание! Есть незакоммиченные изменения:[/bold yellow]\n")
+            
+            # Выводим список измененных файлов
+            changes_table = Table(
+                box=ROUNDED,
+                header_style="bold yellow",
+                show_header=True,
+                show_lines=False
+            )
+            changes_table.add_column("Статус", style="cyan", width=5)
+            changes_table.add_column("Файл", style="white")
+            
+            for line in status.split('\n'):
+                if line:
+                    status_code = line[:2].strip()
+                    filename = line[3:]
+                    changes_table.add_row(status_code, filename)
+            
+            self.ui.console.print(changes_table)
+            
+            # Запрашиваем подтверждение
+            choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
+            if choice != 'y':
+                return
+
         if confirm:
-            choice = input(self.tr("reset.master_confirm")).strip().lower()
+            choice = input(self.locale.tr("reset.master_confirm")).strip().lower()
             if choice != 'y':
                 return
 
         default_branch = self.git._get_default_branch()
+        current_branch = self.git.get_current_branch()
 
         with self.ui.create_progress() as progress:
-            task = progress.add_task(f"[cyan]{self.tr('reset.fetching')}...", total=100)
+            task = progress.add_task(f"[cyan]{self.locale.tr('reset.fetching')}...", total=100)
             self.git.run_git_command("fetch")
             progress.update(task, advance=30)
 
-            progress.update(task, description=f"[cyan]{self.tr('reset.checking_out')}...")
-            self.git.run_git_command(f"checkout {default_branch}")
-            progress.update(task, advance=30)
+            # Если текущая ветка не master/main, сначала переключаемся
+            if current_branch != default_branch:
+                progress.update(task, description=f"[cyan]Переключение на {default_branch}...")
+                self.git.run_git_command(f"checkout -f {default_branch}")
+                progress.update(task, advance=20)
 
-            progress.update(task, description=f"[cyan]{self.tr('reset.resetting')}...")
+            progress.update(task, description=f"[cyan]{self.locale.tr('reset.resetting')}...")
             self.git.run_git_command(f"reset --hard origin/{default_branch}")
-            progress.update(task, advance=40)
+            progress.update(task, advance=50)
 
         self.git._run_npm_install()
         self.ui.show_dragon()
 
     def reset_unstable_branch(self, confirm: bool = True):
-        """Сбрасывает ветку unstable"""
-        if confirm:
-            choice = input(self.tr("reset.unstable_confirm")).strip().lower()
+        """Сбрасывает ветку unstable с проверкой незакоммиченных изменений"""
+        # Проверяем наличие незакоммиченных изменений
+        status = self.git.run_git_command("status --porcelain")
+        if status:
+            self.ui.console.print("\n[bold yellow]⚠ Внимание! Есть незакоммиченные изменения:[/bold yellow]\n")
+            
+            # Выводим список измененных файлов
+            changes_table = Table(
+                box=ROUNDED,
+                header_style="bold yellow",
+                show_header=True,
+                show_lines=False
+            )
+            changes_table.add_column("Статус", style="cyan", width=5)
+            changes_table.add_column("Файл", style="white")
+            
+            for line in status.split('\n'):
+                if line:
+                    status_code = line[:2].strip()
+                    filename = line[3:]
+                    changes_table.add_row(status_code, filename)
+            
+            self.ui.console.print(changes_table)
+            
+            # Запрашиваем подтверждение
+            choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
             if choice != 'y':
                 return
 
+        if confirm:
+            choice = input(self.locale.tr("reset.unstable_confirm")).strip().lower()
+            if choice != 'y':
+                return
+
+        current_branch = self.git.get_current_branch()
+
         with self.ui.create_progress() as progress:
-            task = progress.add_task(f"[cyan]{self.tr('reset.fetching')}...", total=100)
+            task = progress.add_task(f"[cyan]{self.locale.tr('reset.fetching')}...", total=100)
             self.git.run_git_command("fetch")
             progress.update(task, advance=30)
 
-            progress.update(task, description=f"[cyan]{self.tr('reset.checking_out')}...")
-            self.git.run_git_command("checkout unstable")
-            progress.update(task, advance=30)
+            # Если текущая ветка не unstable, сначала переключаемся
+            if current_branch != "unstable":
+                progress.update(task, description=f"[cyan]Переключение на unstable...")
+                self.git.run_git_command("checkout -f unstable")
+                progress.update(task, advance=20)
 
-            progress.update(task, description=f"[cyan]{self.tr('reset.resetting')}...")
+            progress.update(task, description=f"[cyan]{self.locale.tr('reset.resetting')}...")
             self.git.run_git_command("reset --hard origin/unstable")
-            progress.update(task, advance=40)
+            progress.update(task, advance=50)
 
         self.git._run_npm_install()
         self.ui.show_phoenix()
