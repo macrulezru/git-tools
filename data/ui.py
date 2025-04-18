@@ -11,9 +11,11 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeRe
 from rich.prompt import Prompt
 import random
 import os
-import readline
+from pyreadline3 import Readline
 from typing import List, Dict, Optional, Callable, Any
 from .localization import LocalizationManager
+
+readline = Readline()
 
 class UIManager:
     def __init__(self, config, locale):
@@ -241,15 +243,19 @@ class UIManager:
     def _setup_history(self):
         """Настраивает историю команд"""
         try:
-            readline.read_history_file(self.history_file)
-        except FileNotFoundError:
+            if os.path.exists(self.history_file):
+                with open(self.history_file, 'r') as f:
+                    for line in f:
+                        readline.add_history(line.strip())
+        except Exception:
             pass
-        readline.set_history_length(100)
 
     def _save_history(self):
         """Сохраняет историю команд"""
         try:
-            readline.write_history_file(self.history_file)
+            with open(self.history_file, 'w') as f:
+                for i in range(readline.get_current_history_length()):
+                    f.write(readline.get_history_item(i + 1) + '\n')
         except Exception:
             pass
 

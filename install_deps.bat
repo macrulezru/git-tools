@@ -1,39 +1,39 @@
 @echo off
-:: Установка зависимостей для Windows
-echo Установка зависимостей для Git Branch Manager...
+:: Dependency installation for Windows
+echo Installing dependencies for Git Branch Manager...
 
-:: Проверка Python
+:: Check Python
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Ошибка: Python не установлен или не добавлен в PATH
-    echo Пожалуйста, установите Python 3.x с https://www.python.org/
+    echo Error: Python is not installed or not added to PATH
+    echo Please install Python 3.x from https://www.python.org/
     pause
     exit /b 1
 )
 
-:: Проверка pip
+:: Check pip
 python -m pip --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Ошибка: pip не установлен
-    echo Попробуйте переустановить Python с опцией "Add Python to PATH"
+    echo Error: pip is not installed
+    echo Try reinstalling Python with the "Add Python to PATH" option
     pause
     exit /b 1
 )
 
-:: Проверка git
+:: Check git
 git --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Ошибка: Git не установлен
-    echo Пожалуйста, установите Git с https://git-scm.com/
+    echo Error: Git is not installed
+    echo Please install Git from https://git-scm.com/
     pause
     exit /b 1
 )
 
-:: Установка Python-пакетов
-echo Установка Python-пакетов...
+:: Install Python packages
+echo Installing Python packages...
 python -m pip install --upgrade pip
-python -m pip install rich pyreadline
+python -m pip install rich pyreadline3
 
-echo Все зависимости успешно установлены!
-echo Теперь вы можете запустить программу командой: python git_tools.py
+echo All dependencies installed successfully!
+echo You can now run the program with: python git_tools.py
 pause
