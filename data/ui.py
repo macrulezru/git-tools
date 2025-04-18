@@ -757,8 +757,8 @@ class UIManager:
             {"key": "d", "description": self.locale.tr("menu.delete_branch")},
             {"key": "w", "description": self.locale.tr("menu.change_directory")},
             {"key": "r", "description": self.locale.tr("menu.change_remote")},
-            {"key": "m", "description": self.locale.tr("menu.show_menu")},
             {"key": "n", "description": self.locale.tr("menu.npm_scripts")},
+            {"key": "m", "description": self.locale.tr("menu.show_menu")},
             {"key": "l", "description": self.locale.tr("menu.change_language")},
             {"key": "Q", "description": self.locale.tr("menu.exit")},
         ]
