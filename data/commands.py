@@ -88,29 +88,45 @@ class GitCommands:
         return sorted(branch_data, key=lambda x: x["last_commit_timestamp"], reverse=True)
 
     def _run_npm_install(self):
-        """Выполняет npm install в текущей директории"""
+        """Выполняет npm install в текущей директории с прогресс-баром"""
         work_dir = self.config.branch_settings["WorkDir"]
+        package_json = os.path.join(work_dir, "package.json")
 
-        if not os.path.isfile(os.path.join(work_dir, "package.json")):
+        if not os.path.isfile(package_json):
             return
 
         self.ui.show_info(self.locale.tr('npm.installing'))
-
         npm_cmd = "npm.cmd" if os.name == 'nt' else "npm"
 
         with self.ui.create_progress() as progress:
-            task = progress.add_task("[cyan]Running npm install...", total=None)
+            task = progress.add_task("[cyan]Running npm install...", total=100)
+            
+            # Запускаем процесс
             process = subprocess.Popen(
-                [npm_cmd, "i"],
+                [npm_cmd, "install", "--no-audit", "--progress=false"],
                 cwd=work_dir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
+                bufsize=1,  # построчная буферизация
+                universal_newlines=True
             )
 
+            # Плавная анимация прогресса
+            start_time = time.time()
+            last_update = 0
             while process.poll() is None:
-                progress.update(task, advance=1)
-                time.sleep(0.1)
+                elapsed = time.time() - start_time
+                # Обновляем прогресс каждые 0.1 секунды
+                if elapsed - last_update >= 0.1:
+                    # Плавное заполнение до 90% за 30 секунд
+                    progress_percent = min(90, int(elapsed * 2))
+                    progress.update(task, completed=progress_percent)
+                    last_update = elapsed
+                time.sleep(0.05)
+
+            # После завершения устанавливаем 100%
+            progress.update(task, completed=100)
 
         if process.returncode == 0:
             self.ui.show_success(self.locale.tr('npm.installed'))
