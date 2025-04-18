@@ -130,7 +130,7 @@ class ConfigManager:
         """Переключает текущий профиль"""
         if any(p["ProfileName"] == name for p in self.profiles):
             self.current_profile = name
-            self.save_settings()
+            self.save_settings()  # Это сохранит все настройки, включая локаль
             return True
         return False
     

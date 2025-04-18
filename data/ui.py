@@ -957,11 +957,20 @@ class UIManager:
         languages = self.locale.get_supported_languages()
 
         if not languages:
-            self.show_error(self.locale.tr('errors.no_languages'))
+            self.show_error(self.tr('errors.no_languages'))
             return
 
-        # Показываем текущий выбранный язык
-        current_lang = next((lang for lang in languages if lang['code'] == self.locale.current_locale), None)
+        current_lang = next(
+            (lang for lang in languages if lang['code'] == self.locale.current_locale),
+            None
+        )
+
+        if current_lang:
+            self.console.print(
+                f"\n{self.tr('language.current')}: "
+                f"[bold]{current_lang['name']}[/bold] "
+                f"({current_lang['code']})\n"
+            )
 
         table = Table(
             title=self.locale.tr("menu.language_title"),

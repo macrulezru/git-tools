@@ -428,17 +428,18 @@ class GitBranchManager:
                 self.ui.show_error(self.tr('errors.invalid_choice'))
 
     def _switch_profile(self):
-        """Переключает профиль"""
+        """Переключает профиль с обновлением локализации"""
         profiles = self.config.profiles
         choice = input(self.tr("profiles.select_switch").format(len(profiles))).strip()
         
         if choice.isdigit() and 1 <= int(choice) <= len(profiles):
             profile = profiles[int(choice)-1]
             if self.config.switch_profile(profile["ProfileName"]):
-                self.ui.show_success(self.tr('profiles.switched').format(profile["ProfileName"]))
-                # Обновляем локализацию
+                # Обновляем локализацию согласно новому профилю
                 self.locale.current_locale = profile["Locale"]
-                self.locale.load_locales()
+                self.locale.tr.cache_clear()  # Очищаем кеш переводов
+                
+                self.ui.show_success(self.tr('profiles.switched').format(profile["ProfileName"]))
         else:
             self.ui.show_error(self.tr('errors.invalid_choice'))
 
