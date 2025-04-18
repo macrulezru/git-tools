@@ -32,7 +32,9 @@
     "no_remotes": "Gitリモートが設定されていません",
     "unknown": "不明なエラー",
     "command_failed": "コマンドが失敗しました: {}",
-    "use_help": "'help'、'h'または'm'でコマンド一覧を表示"
+    "use_help": "'help'、'h'または'm'でコマンド一覧を表示",
+    "npm_dependencies_installing": "npm依存関係をインストール中...",
+    "npm_dependencies_installed": "依存関係がインストールされました"
   },
   "branch": {
     "create_title": "新しいブランチの作成",
@@ -119,7 +121,7 @@
     "language_changed": "言語を変更しました: {}",
     "change_language": "言語変更",
     "select_action": "アクションを選択 (1-8, s,d,w,r,l,Q): ",
-    "reset_master": "メインブランチをリセット (強制)",
+    "reset_master": "{}ブランチをリセット (強制)",
     "reset_unstable": "unstableブランチをリセット (強制)",
     "soft_reset": "メインブランチへソフトリセット (--soft)",
     "rebase": "メインブランチからリベース",
@@ -155,7 +157,14 @@
   },
   "npm": {
     "installing": "🔄 npm依存関係をインストール中...",
-    "installed": "✓ 依存関係がインストールされました"
+    "installed": "✓ 依存関係がインストールされました",
+    "scripts_title": "利用可能なNPMスクリプト",
+    "script_name": "スクリプト名",
+    "script_command": "コマンド",
+    "select_script": "実行するスクリプトを選択 (1-{0}/q): ",
+    "script_started": "スクリプト'{0}'を新しいターミナルで開始",
+    "script_error": "スクリプト'{0}'の実行エラー: {1}",
+    "failed": "NPM依存関係のインストールに失敗しました"
   },
   "ui": {
     "try_commands": "これらのコマンドを試してください"

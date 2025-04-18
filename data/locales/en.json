@@ -32,7 +32,9 @@
     "no_remotes": "No git remotes configured",
     "unknown": "unknown error",
     "command_failed": "Command failed: {}",
-    "use_help": "Use 'help', 'h' or 'm' for command list"
+    "use_help": "Use 'help', 'h' or 'm' for command list",
+    "npm_dependencies_installing": "Installing npm dependencies...",
+    "npm_dependencies_installed": "Dependencies installed"
   },
   "branch": {
     "create_title": "Create New Branch",
@@ -119,7 +121,7 @@
     "language_changed": "Language changed to: {}",
     "change_language": "Change Language",
     "select_action": "Select action (1-8, s,d,w,r,l,Q): ",
-    "reset_master": "Reset main branch (hard)",
+    "reset_master": "Reset {} branch (hard)",
     "reset_unstable": "Reset unstable branch (hard)",
     "soft_reset": "Soft reset to main branch (--soft)",
     "rebase": "Rebase from main branch",
@@ -155,7 +157,14 @@
   },
   "npm": {
     "installing": "🔄 Installing npm dependencies...",
-    "installed": "✓ Dependencies installed"
+    "installed": "✓ Dependencies installed",
+    "scripts_title": "Available NPM Scripts",
+    "script_name": "Script Name",
+    "script_command": "Command",
+    "select_script": "Select script to run (1-{0}/q): ",
+    "script_started": "Script '{0}' started in new terminal",
+    "script_error": "Error running script '{0}': {1}",
+    "failed": "Failed to install NPM dependencies"
   },
   "ui": {
     "try_commands": "Try one of these commands"

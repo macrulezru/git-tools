@@ -32,7 +32,9 @@
     "no_remotes": "Aucun dépôt distant configuré",
     "unknown": "erreur inconnue",
     "command_failed": "Erreur d'exécution de commande: {}",
-    "use_help": "Utilisez 'help', 'h' ou 'm' pour la liste des commandes"
+    "use_help": "Utilisez 'help', 'h' ou 'm' pour la liste des commandes",
+    "npm_dependencies_installing": "Installation des dépendances npm...",
+    "npm_dependencies_installed": "Dépendances installées"
   },
   "branch": {
     "create_title": "Créer une nouvelle branche",
@@ -119,7 +121,7 @@
     "language_changed": "Langue changée en: {}",
     "change_language": "Changer la langue",
     "select_action": "Sélectionnez une action (1-8, s,d,w,r,l,Q): ",
-    "reset_master": "Réinitialiser branche principale (hard)",
+    "reset_master": "Réinitialiser la branche {} (hard)",
     "reset_unstable": "Réinitialiser branche unstable (hard)",
     "soft_reset": "Réinitialisation douce vers branche principale (--soft)",
     "rebase": "Rebase depuis branche principale",
@@ -155,7 +157,14 @@
   },
   "npm": {
     "installing": "🔄 Installation des dépendances npm...",
-    "installed": "✓ Dépendances installées"
+    "installed": "✓ Dépendances installées",
+    "scripts_title": "Scripts NPM disponibles",
+    "script_name": "Nom du script",
+    "script_command": "Commande",
+    "select_script": "Sélectionnez un script à exécuter (1-{0}/q): ",
+    "script_started": "Script '{0}' démarré dans un nouveau terminal",
+    "script_error": "Erreur lors de l'exécution du script '{0}': {1}",
+    "failed": "Échec de l'installation des dépendances NPM"
   },
   "ui": {
     "try_commands": "Essayez l'une de ces commandes"

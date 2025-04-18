@@ -32,7 +32,9 @@
     "no_remotes": "No hay repositorios remotos configurados",
     "unknown": "error desconocido",
     "command_failed": "Error al ejecutar el comando: {}",
-    "use_help": "Usa 'help', 'h' o 'm' para ver la lista de comandos"
+    "use_help": "Usa 'help', 'h' o 'm' para ver la lista de comandos",
+    "npm_dependencies_installing": "Instalando dependencias npm...",
+    "npm_dependencies_installed": "Dependencias instaladas"
   },
   "branch": {
     "create_title": "Crear nueva rama",
@@ -119,7 +121,7 @@
     "language_changed": "Idioma cambiado a: {}",
     "change_language": "Cambiar idioma",
     "select_action": "Selecciona acción (1-8, s,d,w,r,l,Q): ",
-    "reset_master": "Reiniciar rama principal (hard)",
+    "reset_master": "Reiniciar rama {} (hard)",
     "reset_unstable": "Reiniciar rama unstable (hard)",
     "soft_reset": "Reinicio suave a rama principal (--soft)",
     "rebase": "Rebase desde rama principal",
@@ -155,7 +157,14 @@
   },
   "npm": {
     "installing": "🔄 Instalando dependencias npm...",
-    "installed": "✓ Dependencias instaladas"
+    "installed": "✓ Dependencias instaladas",
+    "scripts_title": "Scripts NPM disponibles",
+    "script_name": "Nombre del script",
+    "script_command": "Comando",
+    "select_script": "Seleccione script para ejecutar (1-{0}/q): ",
+    "script_started": "Script '{0}' iniciado en nueva terminal",
+    "script_error": "Error al ejecutar script '{0}': {1}",
+    "failed": "Error al instalar dependencias NPM"
   },
   "ui": {
     "try_commands": "Prueba uno de estos comandos"

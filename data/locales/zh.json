@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "欢迎使用Git分支管理器！",
+    "initial_config": "请完成初始设置",
+    "step1": "1. 选择语言",
+    "step2": "2. 工作目录",
+    "step3": "3. 新分支前缀",
+    "choose_language": "选择语言 (默认: {default})",
+    "enter_workdir": "输入Git仓库路径",
+    "invalid_repo": "错误: 指定目录不是Git仓库",
+    "enter_prefix": "输入分支前缀 (例如: {example})",
+    "setup_complete": "设置完成！",
+    "current_settings": "当前设置"
+  },
   "app": {
     "title": "Git分支管理器 - Python版",
     "help_prompt": "输入'help'查看命令列表\n",
@@ -32,7 +45,11 @@
     "no_remotes": "未配置Git远程仓库",
     "unknown": "未知错误",
     "command_failed": "命令失败: {}",
-    "use_help": "使用'help'、'h'或'm'查看命令列表"
+    "use_help": "使用'help'、'h'或'm'查看命令列表",
+    "npm_dependencies_installing": "正在安装npm依赖...",
+    "npm_dependencies_installed": "依赖已安装",
+    "no_package_json": "当前目录中未找到package.json文件",
+    "git_not_initialized": "Git未初始化"
   },
   "branch": {
     "create_title": "创建新分支",
@@ -119,7 +136,7 @@
     "language_changed": "语言已更改为: {}",
     "change_language": "更改语言",
     "select_action": "选择操作 (1-8, s,d,w,r,l,Q): ",
-    "reset_master": "重置主分支(强制)",
+    "reset_master": "重置主分支{}(强制)",
     "reset_unstable": "重置unstable分支(强制)",
     "soft_reset": "软重置到主分支(--soft)",
     "rebase": "从主分支变基",
@@ -139,13 +156,15 @@
     "prefix_select": "选择前缀 (1-{}/N/q): ",
     "dir_select": "选择目录 (1-{}/N/B/q): ",
     "select_prefix": "选择前缀:",
-    "language_change_cancelled": "语言更改已取消。"
+    "language_change_cancelled": "语言更改已取消。",
+    "npm_scripts": "NPM脚本"
   },
   "commands": {
     "create_branch": "创建新分支",
     "branch_from": "基础分支: {}",
     "current_prefix": "当前前缀: {}",
-    "creating_branch": "正在创建分支{}..."
+    "creating_branch": "正在创建分支{}...",
+    "select_prefix": "选择前缀:"
   },
   "locale": {
     "not_found": "未找到'{}'语言环境，使用英语",
@@ -155,7 +174,14 @@
   },
   "npm": {
     "installing": "🔄 正在安装npm依赖...",
-    "installed": "✓ 依赖已安装"
+    "installed": "✓ 依赖已安装",
+    "scripts_title": "可用NPM脚本",
+    "script_name": "脚本名称",
+    "script_command": "命令",
+    "select_script": "选择要运行的脚本 (1-{0}/q): ",
+    "script_started": "脚本'{0}'已在新终端中启动",
+    "script_error": "运行脚本'{0}'错误: {1}",
+    "failed": "安装NPM依赖失败"
   },
   "ui": {
     "try_commands": "尝试以下命令之一"

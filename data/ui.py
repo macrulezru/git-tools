@@ -689,8 +689,10 @@ class UIManager:
 
     def show_git_actions_menu(self):
         """Показывает меню действий"""
+        default_branch = self.git._get_default_branch().upper() if self.git else "MASTER"
+
         options = [
-            {"key": "1", "description": self.locale.tr("menu.reset_master"), "action": lambda: self.manager.reset_master_branch(True)},
+            {"key": "1", "description": self.locale.tr("menu.reset_master").format(default_branch), "action": lambda: self.manager.reset_master_branch(True)},
             {"key": "2", "description": self.locale.tr("menu.reset_unstable"), "action": lambda: self.manager.reset_unstable_branch(True)},
             {"key": "3", "description": self.locale.tr("menu.soft_reset"), "action": lambda: self.manager.soft_reset_to_master(True)},
             {"key": "4", "description": self.locale.tr("menu.rebase"), "action": lambda: self.manager.rebase_from_master(True)},
@@ -744,8 +746,10 @@ class UIManager:
 
     def show_key_bindings_help(self):
         """Показывает подсказку по клавишам"""
+        default_branch = self.git._get_default_branch().upper() if self.git else "MASTER"
+
         bindings = [
-            {"key": "1", "description": self.locale.tr("menu.reset_master")},
+            {"key": "1", "description": self.locale.tr("menu.reset_master").format(default_branch)},
             {"key": "2", "description": self.locale.tr("menu.reset_unstable")},
             {"key": "3", "description": self.locale.tr("menu.soft_reset")},
             {"key": "4", "description": self.locale.tr("menu.rebase")},
