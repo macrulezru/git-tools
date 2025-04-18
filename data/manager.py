@@ -27,6 +27,7 @@ class GitBranchManager:
 
         # Устанавливаем взаимные ссылки
         self.ui.git = self.git
+        self.ui.manager = self  # Добавляем эту строку
         self.git.ui = self.ui
 
         # Загружаем настройки

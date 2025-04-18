@@ -1,6 +1,7 @@
 import os
 import subprocess
 import re
+import json
 import time
 from typing import Optional, List, Dict, Any
 from .localization import LocalizationManager
@@ -135,3 +136,19 @@ class GitCommands:
             if error_output:
                 self.ui.show_error(error_output)
             self.ui.show_error(self.locale.tr('npm.failed'))
+            
+    def get_npm_scripts(self) -> Optional[Dict[str, str]]:
+        """Получает npm-скрипты из package.json"""
+        work_dir = self.config.branch_settings["WorkDir"]
+        package_json = os.path.join(work_dir, "package.json")
+
+        if not os.path.isfile(package_json):
+            return None
+
+        try:
+            with open(package_json, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('scripts', {})
+        except Exception as e:
+            self.ui.show_error(f"Error reading package.json: {str(e)}")
+            return None

@@ -63,6 +63,8 @@ def main():
                 manager.change_work_directory()
             elif command == 'r':
                 manager.set_default_remote()
+            elif command == 'n':
+                manager.ui.show_npm_scripts()
             elif command == 'l':
                 manager.change_language_interactive()
             elif command == 'm':

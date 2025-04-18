@@ -19,7 +19,8 @@ class UIManager:
     def __init__(self, config, locale):
         self.config = config
         self.locale = locale
-        self.git = None  # Будет установлено позже
+        self.git = None
+        self.manager = None
         self.console = Console()
         self.history_file = self.config.history_file
 
@@ -672,19 +673,20 @@ class UIManager:
     def show_git_actions_menu(self):
         """Показывает меню действий"""
         options = [
-            {"key": "1", "description": self.locale.tr("menu.reset_master"), "action": lambda: self.git.reset_master_branch(True)},
-            {"key": "2", "description": self.locale.tr("menu.reset_unstable"), "action": lambda: self.git.reset_unstable_branch(True)},
-            {"key": "3", "description": self.locale.tr("menu.soft_reset"), "action": lambda: self.git.soft_reset_to_master(True)},
-            {"key": "4", "description": self.locale.tr("menu.rebase"), "action": lambda: self.git.rebase_from_master(True)},
-            {"key": "5", "description": self.locale.tr("menu.new_branch"), "action": self.git.new_branch_from_master},
+            {"key": "1", "description": self.locale.tr("menu.reset_master"), "action": lambda: self.manager.reset_master_branch(True)},
+            {"key": "2", "description": self.locale.tr("menu.reset_unstable"), "action": lambda: self.manager.reset_unstable_branch(True)},
+            {"key": "3", "description": self.locale.tr("menu.soft_reset"), "action": lambda: self.manager.soft_reset_to_master(True)},
+            {"key": "4", "description": self.locale.tr("menu.rebase"), "action": lambda: self.manager.rebase_from_master(True)},
+            {"key": "5", "description": self.locale.tr("menu.new_branch"), "action": self.manager.new_branch_from_master},
             {"key": "6", "description": self.locale.tr("menu.show_branches"), "action": self.show_branches},
             {"key": "7", "description": self.locale.tr("menu.change_prefix"), "action": self.set_branch_prefix},
             {"key": "8", "description": self.locale.tr("menu.show_log"), "action": self.show_git_log},
             {"key": "9", "description": self.locale.tr("menu.keys_title"), "action": self.show_key_bindings_help},
             {"key": "s", "description": self.locale.tr("menu.show_status"), "action": self.show_git_status},
-            {"key": "d", "description": self.locale.tr("menu.delete_branch"), "action": self.git.delete_branch},
+            {"key": "d", "description": self.locale.tr("menu.delete_branch"), "action": self.manager.delete_branch},
             {"key": "w", "description": self.locale.tr("menu.change_directory"), "action": self.change_work_directory},
             {"key": "r", "description": self.locale.tr("menu.change_remote"), "action": self.set_default_remote},
+            {"key": "n", "description": self.locale.tr("menu.npm_scripts"), "action": self.show_npm_scripts},
             {"key": "l", "description": self.locale.tr("menu.change_language"), "action": self.change_language_interactive},
             {"key": "Q", "description": self.locale.tr("menu.exit"), "action": lambda: None},
         ]
@@ -739,6 +741,7 @@ class UIManager:
             {"key": "w", "description": self.locale.tr("menu.change_directory")},
             {"key": "r", "description": self.locale.tr("menu.change_remote")},
             {"key": "m", "description": self.locale.tr("menu.show_menu")},
+            {"key": "n", "description": self.locale.tr("menu.npm_scripts")},
             {"key": "l", "description": self.locale.tr("menu.change_language")},
             {"key": "Q", "description": self.locale.tr("menu.exit")},
         ]
@@ -1067,3 +1070,75 @@ class UIManager:
     def clear_screen(self):
         """Очищает экран"""
         os.system('cls' if os.name == 'nt' else 'clear')
+        
+    def show_npm_scripts(self):
+        """Показывает и выполняет npm-скрипты из package.json"""
+        if not self.git:
+            self.show_error(self.locale.tr('errors.git_not_initialized'))
+            return
+
+        scripts = self.git.get_npm_scripts()
+        if not scripts:
+            self.show_error(self.locale.tr('errors.no_package_json'))
+            return
+
+        table = Table(
+            title=self.locale.tr("npm.scripts_title"),
+            box=ROUNDED,
+            header_style="bold cyan",
+            border_style="blue",
+            show_lines=True
+        )
+
+        table.add_column("#", style="green", width=5)
+        table.add_column(self.locale.tr("npm.script_name"), style="bright_cyan", width=25)
+        table.add_column(self.locale.tr("npm.script_command"), style="white", width=60)
+
+        for idx, (name, cmd) in enumerate(scripts.items(), 1):
+            table.add_row(
+                str(idx),
+                name,
+                cmd
+            )
+
+        self.console.print()
+        self.console.print(table)
+        self.console.print()
+
+        while True:
+            # Исправленная строка с подстановкой количества скриптов
+            choice = input(self.locale.tr("npm.select_script").format(len(scripts))).strip().lower()
+            if choice == 'q':
+                return
+
+            if choice.isdigit() and 1 <= int(choice) <= len(scripts):
+                selected_script = list(scripts.keys())[int(choice)-1]
+                self._run_npm_script(selected_script, scripts[selected_script])
+                return
+            else:
+                self.show_error(self.locale.tr('errors.invalid_choice'))
+
+    def _run_npm_script(self, script_name: str, script_cmd: str):
+        """Запускает npm-скрипт в новом терминале"""
+        work_dir = self.config.branch_settings["WorkDir"]
+        
+        try:
+            if os.name == 'nt':
+                # Для Windows
+                import subprocess
+                subprocess.Popen(
+                    f'start cmd /k "cd /d "{work_dir}" && npm run {script_name} && exit"',
+                    shell=True
+                )
+            else:
+                # Для Linux/MacOS
+                import subprocess
+                terminal = os.environ.get('TERMINAL', 'x-terminal-emulator')
+                subprocess.Popen(
+                    f'{terminal} -e "bash -c \'cd "{work_dir}" && npm run {script_name}; exec bash\'"',
+                    shell=True
+                )
+            
+            self.show_success(self.locale.tr('npm.script_started').format(script_name))
+        except Exception as e:
+            self.show_error(self.locale.tr('npm.script_error').format(script_name, str(e)))
