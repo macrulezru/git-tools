@@ -214,7 +214,9 @@ class GitBranchManager:
         """Сбрасывает ветку master/main с проверкой незакоммиченных изменений"""
         # Проверяем наличие незакоммиченных изменений
         status = self.git.run_git_command("status --porcelain")
-        if status:
+        changes_exist = bool(status)
+        
+        if changes_exist:
             self.ui.console.print("\n[bold yellow]⚠ Внимание! Есть незакоммиченные изменения:[/bold yellow]\n")
             
             # Выводим список измененных файлов
@@ -235,12 +237,13 @@ class GitBranchManager:
             
             self.ui.console.print(changes_table)
             
-            # Запрашиваем подтверждение
-            choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
-            if choice != 'y':
-                return
-
-        if confirm:
+            # Запрашиваем подтверждение только если есть изменения
+            if confirm:
+                choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
+                if choice != 'y':
+                    return
+        elif confirm:
+            # Если изменений нет, запрашиваем стандартное подтверждение
             choice = input(self.locale.tr("reset.master_confirm")).strip().lower()
             if choice != 'y':
                 return
@@ -270,7 +273,9 @@ class GitBranchManager:
         """Сбрасывает ветку unstable с проверкой незакоммиченных изменений"""
         # Проверяем наличие незакоммиченных изменений
         status = self.git.run_git_command("status --porcelain")
-        if status:
+        changes_exist = bool(status)
+        
+        if changes_exist:
             self.ui.console.print("\n[bold yellow]⚠ Внимание! Есть незакоммиченные изменения:[/bold yellow]\n")
             
             # Выводим список измененных файлов
@@ -291,12 +296,13 @@ class GitBranchManager:
             
             self.ui.console.print(changes_table)
             
-            # Запрашиваем подтверждение
-            choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
-            if choice != 'y':
-                return
-
-        if confirm:
+            # Запрашиваем подтверждение только если есть изменения
+            if confirm:
+                choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
+                if choice != 'y':
+                    return
+        elif confirm:
+            # Если изменений нет, запрашиваем стандартное подтверждение
             choice = input(self.locale.tr("reset.unstable_confirm")).strip().lower()
             if choice != 'y':
                 return
