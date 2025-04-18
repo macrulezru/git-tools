@@ -74,7 +74,8 @@
     "current_delete": "Impossible de supprimer la branche actuelle !",
     "created": "✓ Branche créée avec succès: {}",
     "not_switched": "⚠️ Branche créée mais non basculée",
-    "current": "└ Branche actuelle: {}"
+    "current": "└ Branche actuelle: {}",
+    "switching": "Changement vers {}..."
   },
   "prefix": {
     "title": "Sélection du Préfixe de Branche",
@@ -177,7 +178,9 @@
     "select_script": "Sélectionnez un script à exécuter (1-{0}/q): ",
     "script_started": "Script '{0}' démarré dans un nouveau terminal",
     "script_error": "Erreur lors de l'exécution du script '{0}': {1}",
-    "failed": "Échec de l'installation des dépendances NPM"
+    "failed": "Échec de l'installation des dépendances NPM",
+    "detected": "package.json détecté, lancement de npm install...",
+    "not_detected": "package.json non détecté, npm install ignoré"
   },
   "ui": {
     "try_commands": "Essayez l'une de ces commandes"
@@ -185,5 +188,57 @@
   "settings": {
     "option": "Paramètre",
     "curren_value": "Valeur actuelle"
+  },
+  "profiles": {
+    "select_action": "Sélectionnez une action (s,a,d,q)",
+    "title": "Gestion des profils",
+    "name": "Nom",
+    "prefix": "Préfixe",
+    "workdir": "Dossier de travail",
+    "switch": "Changer de profil",
+    "add": "Ajouter un profil",
+    "delete": "Supprimer un profil",
+    "select_switch": "Sélectionnez un profil à activer (1-{0}): ",
+    "select_delete": "Sélectionnez un profil à supprimer (1-{0}): ",
+    "enter_name": "Entrez le nom du nouveau profil : ",
+    "enter_prefix": "Entrez le préfixe des branches (par défaut dl/TTSH-) : ",
+    "enter_remote": "Entrez le dépôt distant (par défaut origin) : ",
+    "enter_workdir": "Entrez le dossier de travail (par défaut courant) : ",
+    "enter_locale": "Entrez la langue (fr/en) : ",
+    "switched": "Profil '{0}' activé",
+    "added": "Profil '{0}' ajouté",
+    "deleted": "Profil '{0}' supprimé",
+    "exists": "Un profil avec ce nom existe déjà",
+    "add_failed": "Échec de l'ajout du profil",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer le profil '{0}' ? (y/n) : ",
+    "cant_delete_default": "Impossible de supprimer le profil par défaut",
+    "cant_delete_last": "Impossible de supprimer le dernier profil",
+    "add_title": "Ajout d'un nouveau profil",
+    "name_empty": "Le nom du profil ne peut pas être vide",
+    "name_exists": "Un profil avec ce nom existe déjà",
+    "select_dir_method": "Sélectionnez la méthode de spécification du dossier de travail :",
+    "dir_method_manual": "1. Entrer le chemin manuellement",
+    "dir_method_explorer": "2. Sélectionner via l'explorateur",
+    "dir_method_current": "3. Utiliser le dossier courant",
+    "enter_dir": "Entrez le chemin complet du dossier de travail : ",
+    "dir_not_exists": "Le dossier spécifié n'existe pas",
+    "not_git_repo": "Le dossier sélectionné ne contient pas de dépôt git. Continuer ? (y/n) : ",
+    "profile_created": "Profil '{0}' créé avec succès !",
+    "created_and_switched": "Profil '{0}' créé et activé avec succès !",
+    "current_profile": "Profil actuel : {0}",
+    "work_dir": "Dossier de travail : {0}",
+    "interface_lang": "Langue de l'interface : {0}",
+    "select_folder_title": "Sélectionnez un dossier avec un dépôt git",
+    "using_current": "Utilisation du dossier courant : {}"
+  },
+  "language_selection": {
+    "title": "Sélectionnez la langue de l'interface",
+    "prompt": "Sélectionnez une langue (1-{0} ou 'q' pour annuler) : ",
+    "column_number": "#",
+    "column_language": "Langue",
+    "column_code": "Code",
+    "column_flag": "Drapeau",
+    "canceled": "Sélection de langue annulée",
+    "invalid_choice": "Choix invalide. Veuillez réessayer."
   }
 }

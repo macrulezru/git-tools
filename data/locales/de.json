@@ -81,7 +81,8 @@
     "current_delete": "Aktuellen Branch kann nicht gelöscht werden!",
     "created": "✓ Branch erfolgreich erstellt: {}",
     "not_switched": "⚠️ Branch erstellt, aber nicht gewechselt",
-    "current": "└ Aktueller Branch: {}"
+    "current": "└ Aktueller Branch: {}",
+    "switching": "Wechsle zu {}..."
   },
   "prefix": {
     "title": "Branch-Präfix-Auswahl",
@@ -178,7 +179,9 @@
     "select_script": "Skript auswählen (1-{0}/q): ",
     "script_started": "Skript '{0}' in neuem Terminal gestartet",
     "script_error": "Fehler beim Starten des Skripts '{0}': {1}",
-    "failed": "Fehler beim Installieren der NPM-Abhängigkeiten"
+    "failed": "Fehler beim Installieren der NPM-Abhängigkeiten",
+    "detected": "package.json erkannt, führe npm install aus...",
+    "not_detected": "package.json nicht erkannt, überspringe npm install"
   },
   "ui": {
     "try_commands": "Versuchen Sie einen dieser Befehle"
@@ -186,5 +189,57 @@
   "settings": {
     "option": "Einstellung",
     "curren_value": "Aktueller Wert"
+  },
+  "profiles": {
+    "select_action": "Aktion wählen (s,a,d,q)",
+    "title": "Profilverwaltung",
+    "name": "Name",
+    "prefix": "Präfix",
+    "workdir": "Arbeitsverzeichnis",
+    "switch": "Profil wechseln",
+    "add": "Profil hinzufügen",
+    "delete": "Profil löschen",
+    "select_switch": "Profil zum Wechseln wählen (1-{0}): ",
+    "select_delete": "Profil zum Löschen wählen (1-{0}): ",
+    "enter_name": "Namen für neues Profil eingeben: ",
+    "enter_prefix": "Branch-Präfix eingeben (Standard dl/TTSH-): ",
+    "enter_remote": "Remote-Repository eingeben (Standard origin): ",
+    "enter_workdir": "Arbeitsverzeichnis eingeben (Standard aktuell): ",
+    "enter_locale": "Sprache eingeben (de/en): ",
+    "switched": "Profil '{0}' aktiviert",
+    "added": "Profil '{0}' hinzugefügt",
+    "deleted": "Profil '{0}' gelöscht",
+    "exists": "Profil mit diesem Namen existiert bereits",
+    "add_failed": "Profil konnte nicht hinzugefügt werden",
+    "delete_confirm": "Sind Sie sicher, dass Sie das Profil '{0}' löschen möchten? (y/n): ",
+    "cant_delete_default": "Standardprofil kann nicht gelöscht werden",
+    "cant_delete_last": "Letztes Profil kann nicht gelöscht werden",
+    "add_title": "Neues Profil hinzufügen",
+    "name_empty": "Profilname darf nicht leer sein",
+    "name_exists": "Profil mit diesem Namen existiert bereits",
+    "select_dir_method": "Methode zur Arbeitsverzeichnisangabe wählen:",
+    "dir_method_manual": "1. Pfad manuell eingeben",
+    "dir_method_explorer": "2. Über Explorer auswählen",
+    "dir_method_current": "3. Aktuelles Verzeichnis verwenden",
+    "enter_dir": "Vollständigen Pfad zum Arbeitsverzeichnis eingeben: ",
+    "dir_not_exists": "Angegebenes Verzeichnis existiert nicht",
+    "not_git_repo": "Ausgewähltes Verzeichnis enthält kein Git-Repository. Fortfahren? (y/n): ",
+    "profile_created": "Profil '{0}' erfolgreich erstellt!",
+    "created_and_switched": "Profil '{0}' erfolgreich erstellt und aktiviert!",
+    "current_profile": "Aktuelles Profil: {0}",
+    "work_dir": "Arbeitsverzeichnis: {0}",
+    "interface_lang": "Interface-Sprache: {0}",
+    "select_folder_title": "Ordner mit Git-Repository auswählen",
+    "using_current": "Aktuelles Verzeichnis wird verwendet: {}"
+  },
+  "language_selection": {
+    "title": "Interface-Sprache auswählen",
+    "prompt": "Sprache wählen (1-{0} oder 'q' zum Abbrechen): ",
+    "column_number": "#",
+    "column_language": "Sprache",
+    "column_code": "Code",
+    "column_flag": "Flagge",
+    "canceled": "Sprachauswahl abgebrochen",
+    "invalid_choice": "Ungültige Auswahl. Bitte versuchen Sie es erneut."
   }
 }

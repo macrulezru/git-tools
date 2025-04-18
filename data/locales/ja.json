@@ -74,7 +74,8 @@
     "current_delete": "現在のブランチは削除できません！",
     "created": "✓ ブランチを作成しました: {}",
     "not_switched": "⚠️ ブランチは作成されましたが切り替わりませんでした",
-    "current": "└ 現在のブランチ: {}"
+    "current": "└ 現在のブランチ: {}",
+    "switching": "{} に切り替え中..."
   },
   "prefix": {
     "title": "ブランチプレフィックス選択",
@@ -177,7 +178,9 @@
     "select_script": "実行するスクリプトを選択 (1-{0}/q): ",
     "script_started": "スクリプト'{0}'を新しいターミナルで開始",
     "script_error": "スクリプト'{0}'の実行エラー: {1}",
-    "failed": "NPM依存関係のインストールに失敗しました"
+    "failed": "NPM依存関係のインストールに失敗しました",
+    "detected": "package.json を検出、npm install を実行中...",
+    "not_detected": "package.json が見つかりません、npm install をスキップします"
   },
   "ui": {
     "try_commands": "これらのコマンドを試してください"
@@ -185,5 +188,57 @@
   "settings": {
     "option": "設定",
     "curren_value": "現在の値"
+  },
+  "profiles": {
+    "select_action": "アクションを選択 (s,a,d,q)",
+    "title": "プロファイル管理",
+    "name": "名前",
+    "prefix": "プレフィックス",
+    "workdir": "作業ディレクトリ",
+    "switch": "プロファイル切り替え",
+    "add": "プロファイル追加",
+    "delete": "プロファイル削除",
+    "select_switch": "切り替えるプロファイルを選択 (1-{0}): ",
+    "select_delete": "削除するプロファイルを選択 (1-{0}): ",
+    "enter_name": "新しいプロファイル名を入力: ",
+    "enter_prefix": "ブランチのプレフィックスを入力 (デフォルト: dl/TTSH-): ",
+    "enter_remote": "リモートリポジトリを入力 (デフォルト: origin): ",
+    "enter_workdir": "作業ディレクトリを入力 (デフォルト: 現在のディレクトリ): ",
+    "enter_locale": "言語を入力 (ja/en): ",
+    "switched": "プロファイル '{0}' を有効化",
+    "added": "プロファイル '{0}' を追加",
+    "deleted": "プロファイル '{0}' を削除",
+    "exists": "この名前のプロファイルは既に存在します",
+    "add_failed": "プロファイルの追加に失敗しました",
+    "delete_confirm": "プロファイル '{0}' を削除しますか？ (y/n): ",
+    "cant_delete_default": "デフォルトプロファイルは削除できません",
+    "cant_delete_last": "最後のプロファイルは削除できません",
+    "add_title": "新しいプロファイルを追加",
+    "name_empty": "プロファイル名は空にできません",
+    "name_exists": "この名前のプロファイルは既に存在します",
+    "select_dir_method": "作業ディレクトリの指定方法を選択:",
+    "dir_method_manual": "1. 手動でパスを入力",
+    "dir_method_explorer": "2. ファイルエクスプローラで選択",
+    "dir_method_current": "3. 現在のディレクトリを使用",
+    "enter_dir": "作業ディレクトリの完全なパスを入力: ",
+    "dir_not_exists": "指定されたディレクトリが存在しません",
+    "not_git_repo": "選択したディレクトリにgitリポジトリがありません。続けますか？ (y/n): ",
+    "profile_created": "プロファイル '{0}' を作成しました！",
+    "created_and_switched": "プロファイル '{0}' を作成し、有効化しました！",
+    "current_profile": "現在のプロファイル: {0}",
+    "work_dir": "作業ディレクトリ: {0}",
+    "interface_lang": "インターフェース言語: {0}",
+    "select_folder_title": "gitリポジトリのあるフォルダを選択",
+    "using_current": "現在のディレクトリを使用: {}"
+  },
+  "language_selection": {
+    "title": "インターフェース言語を選択",
+    "prompt": "言語を選択 (1-{0} または 'q' でキャンセル): ",
+    "column_number": "#",
+    "column_language": "言語",
+    "column_code": "コード",
+    "column_flag": "国旗",
+    "canceled": "言語選択がキャンセルされました",
+    "invalid_choice": "無効な選択です。もう一度試してください。"
   }
 }

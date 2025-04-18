@@ -74,7 +74,8 @@
     "current_delete": "¡No se puede eliminar la rama actual!",
     "created": "✓ Rama creada exitosamente: {}",
     "not_switched": "⚠️ Rama creada pero no cambiada",
-    "current": "└ Rama actual: {}"
+    "current": "└ Rama actual: {}",
+    "switching": "Cambiando a {}..."
   },
   "prefix": {
     "title": "Selección de Prefijo de Ramas",
@@ -177,7 +178,9 @@
     "select_script": "Seleccione script para ejecutar (1-{0}/q): ",
     "script_started": "Script '{0}' iniciado en nueva terminal",
     "script_error": "Error al ejecutar script '{0}': {1}",
-    "failed": "Error al instalar dependencias NPM"
+    "failed": "Error al instalar dependencias NPM",
+    "detected": "package.json detectado, ejecutando npm install...",
+    "not_detected": "package.json no detectado, omitiendo npm install"
   },
   "ui": {
     "try_commands": "Prueba uno de estos comandos"
@@ -185,5 +188,57 @@
   "settings": {
     "option": "Configuración",
     "curren_value": "Valor actual"
+  },
+  "profiles": {
+    "select_action": "Seleccione acción (s,a,d,q)",
+    "title": "Gestión de perfiles",
+    "name": "Nombre",
+    "prefix": "Prefijo",
+    "workdir": "Directorio de trabajo",
+    "switch": "Cambiar perfil",
+    "add": "Agregar perfil",
+    "delete": "Eliminar perfil",
+    "select_switch": "Seleccione perfil para cambiar (1-{0}): ",
+    "select_delete": "Seleccione perfil para eliminar (1-{0}): ",
+    "enter_name": "Ingrese nombre del nuevo perfil: ",
+    "enter_prefix": "Ingrese prefijo para ramas (predeterminado dl/TTSH-): ",
+    "enter_remote": "Ingrese repositorio remoto (predeterminado origin): ",
+    "enter_workdir": "Ingrese directorio de trabajo (predeterminado actual): ",
+    "enter_locale": "Ingrese idioma (es/en): ",
+    "switched": "Perfil '{0}' activado",
+    "added": "Perfil '{0}' agregado",
+    "deleted": "Perfil '{0}' eliminado",
+    "exists": "Ya existe un perfil con este nombre",
+    "add_failed": "Error al agregar perfil",
+    "delete_confirm": "¿Seguro que desea eliminar el perfil '{0}'? (y/n): ",
+    "cant_delete_default": "No se puede eliminar el perfil predeterminado",
+    "cant_delete_last": "No se puede eliminar el último perfil",
+    "add_title": "Agregar nuevo perfil",
+    "name_empty": "El nombre del perfil no puede estar vacío",
+    "name_exists": "Ya existe un perfil con este nombre",
+    "select_dir_method": "Seleccione método para especificar directorio:",
+    "dir_method_manual": "1. Ingresar ruta manualmente",
+    "dir_method_explorer": "2. Seleccionar con explorador",
+    "dir_method_current": "3. Usar directorio actual",
+    "enter_dir": "Ingrese ruta completa al directorio: ",
+    "dir_not_exists": "El directorio especificado no existe",
+    "not_git_repo": "El directorio seleccionado no contiene repositorio git. ¿Continuar? (y/n): ",
+    "profile_created": "¡Perfil '{0}' creado exitosamente!",
+    "created_and_switched": "¡Perfil '{0}' creado y activado exitosamente!",
+    "current_profile": "Perfil actual: {0}",
+    "work_dir": "Directorio de trabajo: {0}",
+    "interface_lang": "Idioma de interfaz: {0}",
+    "select_folder_title": "Seleccione directorio con repositorio git",
+    "using_current": "Usando directorio actual: {}"
+  },
+  "language_selection": {
+    "title": "Seleccione idioma de interfaz",
+    "prompt": "Seleccione idioma (1-{0} o 'q' para cancelar): ",
+    "column_number": "#",
+    "column_language": "Idioma",
+    "column_code": "Código",
+    "column_flag": "Bandera",
+    "canceled": "Selección de idioma cancelada",
+    "invalid_choice": "Opción inválida. Intente nuevamente."
   }
 }

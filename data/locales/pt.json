@@ -81,7 +81,8 @@
     "current_delete": "Não é possível deletar o branch atual!",
     "created": "✓ Branch criado com sucesso: {}",
     "not_switched": "⚠️ Branch criado mas não houve troca",
-    "current": "└ Branch atual: {}"
+    "current": "└ Branch atual: {}",
+    "switching": "Alternando para {}..."
   },
   "prefix": {
     "title": "Seleção de Prefixo de Branch",
@@ -96,7 +97,8 @@
     "path": "Diretório",
     "changed": "Diretório de trabalho alterado para: {}",
     "enter_new": "Digite caminho do diretório: ",
-    "select_gui": "Selecionar via explorador de arquivos"
+    "select_gui": "Selecionar via explorador de arquivos",
+    "using_current": "Usando diretório atual: {}"
   },
   "remote": {
     "title": "Alterar Repositório Remoto Padrão",
@@ -186,5 +188,56 @@
   "settings": {
     "option": "Configuração",
     "curren_value": "Valor atual"
+  },
+  "profiles": {
+    "select_action": "Selecione ação (s,a,d,q)",
+    "title": "Gerenciamento de perfis",
+    "name": "Nome",
+    "prefix": "Prefixo",
+    "workdir": "Diretório de trabalho",
+    "switch": "Alternar perfil",
+    "add": "Adicionar perfil",
+    "delete": "Remover perfil",
+    "select_switch": "Selecione perfil para alternar (1-{0}): ",
+    "select_delete": "Selecione perfil para remover (1-{0}): ",
+    "enter_name": "Digite nome do novo perfil: ",
+    "enter_prefix": "Digite prefixo de branches (padrão dl/TTSH-): ",
+    "enter_remote": "Digite repositório remoto (padrão origin): ",
+    "enter_workdir": "Digite diretório de trabalho (padrão atual): ",
+    "enter_locale": "Digite idioma (pt/en): ",
+    "switched": "Perfil '{0}' ativado",
+    "added": "Perfil '{0}' adicionado",
+    "deleted": "Perfil '{0}' removido",
+    "exists": "Perfil com este nome já existe",
+    "add_failed": "Falha ao adicionar perfil",
+    "delete_confirm": "Tem certeza que deseja remover o perfil '{0}'? (y/n): ",
+    "cant_delete_default": "Não é possível remover o perfil padrão",
+    "cant_delete_last": "Não é possível remover o último perfil",
+    "add_title": "Adicionando novo perfil",
+    "name_empty": "Nome do perfil não pode ser vazio",
+    "name_exists": "Perfil com este nome já existe",
+    "select_dir_method": "Selecione método para especificar diretório:",
+    "dir_method_manual": "1. Digitar caminho manualmente",
+    "dir_method_explorer": "2. Selecionar via explorador",
+    "dir_method_current": "3. Usar diretório atual",
+    "enter_dir": "Digite caminho completo para diretório: ",
+    "dir_not_exists": "Diretório especificado não existe",
+    "not_git_repo": "Pasta selecionada não contém repositório git. Continuar? (y/n): ",
+    "profile_created": "Perfil '{0}' criado com sucesso!",
+    "created_and_switched": "Perfil '{0}' criado e ativado com sucesso!",
+    "current_profile": "Perfil atual: {0}",
+    "work_dir": "Diretório de trabalho: {0}",
+    "interface_lang": "Idioma da interface: {0}",
+    "select_folder_title": "Selecione pasta com repositório git"
+  },
+  "language_selection": {
+    "title": "Selecione idioma da interface",
+    "prompt": "Selecione idioma (1-{0} ou 'q' para cancelar): ",
+    "column_number": "#",
+    "column_language": "Idioma",
+    "column_code": "Código",
+    "column_flag": "Bandeira",
+    "canceled": "Seleção de idioma cancelada",
+    "invalid_choice": "Escolha inválida. Tente novamente."
   }
 }

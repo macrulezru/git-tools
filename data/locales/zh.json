@@ -76,7 +76,8 @@
     "current_delete": "不能删除当前分支！",
     "created": "✓ 已创建分支: {}",
     "not_switched": "⚠️ 分支已创建但未切换",
-    "current": "└ 当前分支: {}"
+    "current": "└ 当前分支: {}",
+    "switching": "正在切换到{}..."
   },
   "prefix": {
     "title": "分支前缀选择",
@@ -91,7 +92,8 @@
     "path": "目录",
     "changed": "工作目录已更改为: {}",
     "enter_new": "输入目录路径: ",
-    "select_gui": "通过文件资源管理器选择"
+    "select_gui": "通过文件资源管理器选择",
+    "using_current": "使用当前目录: {}"
   },
   "remote": {
     "title": "更改默认远程仓库",
@@ -189,5 +191,56 @@
   "settings": {
     "option": "设置",
     "curren_value": "当前值"
+  },
+  "profiles": {
+    "select_action": "选择操作(s,a,d,q)",
+    "title": "配置文件管理",
+    "name": "名称",
+    "prefix": "前缀",
+    "workdir": "工作目录",
+    "switch": "切换配置文件",
+    "add": "添加配置文件",
+    "delete": "删除配置文件",
+    "select_switch": "选择要切换的配置文件(1-{0}): ",
+    "select_delete": "选择要删除的配置文件(1-{0}): ",
+    "enter_name": "输入新配置文件名: ",
+    "enter_prefix": "输入分支前缀(默认dl/TTSH-): ",
+    "enter_remote": "输入远程仓库(默认origin): ",
+    "enter_workdir": "输入工作目录(默认当前): ",
+    "enter_locale": "输入语言(zh/en): ",
+    "switched": "配置文件'{0}'已激活",
+    "added": "配置文件'{0}'已添加",
+    "deleted": "配置文件'{0}'已删除",
+    "exists": "同名配置文件已存在",
+    "add_failed": "添加配置文件失败",
+    "delete_confirm": "确定删除配置文件'{0}'吗？(y/n): ",
+    "cant_delete_default": "不能删除默认配置文件",
+    "cant_delete_last": "不能删除最后一个配置文件",
+    "add_title": "添加新配置文件",
+    "name_empty": "配置文件名不能为空",
+    "name_exists": "同名配置文件已存在",
+    "select_dir_method": "选择指定工作目录的方法:",
+    "dir_method_manual": "1. 手动输入路径",
+    "dir_method_explorer": "2. 通过文件资源管理器选择",
+    "dir_method_current": "3. 使用当前目录",
+    "enter_dir": "输入工作目录的完整路径: ",
+    "dir_not_exists": "指定目录不存在",
+    "not_git_repo": "所选文件夹不包含git仓库。继续？(y/n): ",
+    "profile_created": "配置文件'{0}'创建成功！",
+    "created_and_switched": "配置文件'{0}'创建并激活成功！",
+    "current_profile": "当前配置文件: {0}",
+    "work_dir": "工作目录: {0}",
+    "interface_lang": "界面语言: {0}",
+    "select_folder_title": "选择包含git仓库的文件夹"
+  },
+  "language_selection": {
+    "title": "选择界面语言",
+    "prompt": "选择语言(1-{0}或输入'q'取消): ",
+    "column_number": "编号",
+    "column_language": "语言",
+    "column_code": "代码",
+    "column_flag": "旗帜",
+    "canceled": "语言选择已取消",
+    "invalid_choice": "无效选择。请重试。"
   }
 }

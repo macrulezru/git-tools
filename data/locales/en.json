@@ -74,7 +74,8 @@
     "current_delete": "Cannot delete current branch!",
     "created": "✓ Branch created: {}",
     "not_switched": "⚠️ Branch created but not switched",
-    "current": "└ Current branch: {}"
+    "current": "└ Current branch: {}",
+    "switching": "Switching to {}..."
   },
   "prefix": {
     "title": "Branch Prefix Selection",
@@ -177,7 +178,9 @@
     "select_script": "Select script to run (1-{0}/q): ",
     "script_started": "Script '{0}' started in new terminal",
     "script_error": "Error running script '{0}': {1}",
-    "failed": "Failed to install NPM dependencies"
+    "failed": "Failed to install NPM dependencies",
+    "detected": "package.json detected, running npm install...",
+    "not_detected": "package.json not detected, skipping npm install"
   },
   "ui": {
     "try_commands": "Try one of these commands"
@@ -185,5 +188,57 @@
   "settings": {
     "option": "Setting",
     "curren_value": "Current value"
+  },
+  "profiles": {
+    "select_action": "Select action (s,a,d,q)",
+    "title": "Profile Management",
+    "name": "Name",
+    "prefix": "Prefix",
+    "workdir": "Working Directory",
+    "switch": "Switch Profile",
+    "add": "Add Profile",
+    "delete": "Delete Profile",
+    "select_switch": "Select profile to switch to (1-{0}): ",
+    "select_delete": "Select profile to delete (1-{0}): ",
+    "enter_name": "Enter new profile name: ",
+    "enter_prefix": "Enter branch prefix (default dl/TTSH-): ",
+    "enter_remote": "Enter remote repository (default origin): ",
+    "enter_workdir": "Enter working directory (default current): ",
+    "enter_locale": "Enter language (en/ru): ",
+    "switched": "Profile '{0}' activated",
+    "added": "Profile '{0}' added",
+    "deleted": "Profile '{0}' deleted",
+    "exists": "Profile with this name already exists",
+    "add_failed": "Failed to add profile",
+    "delete_confirm": "Are you sure you want to delete profile '{0}'? (y/n): ",
+    "cant_delete_default": "Cannot delete default profile",
+    "cant_delete_last": "Cannot delete last profile",
+    "add_title": "Add New Profile",
+    "name_empty": "Profile name cannot be empty",
+    "name_exists": "Profile with this name already exists",
+    "select_dir_method": "Select working directory specification method:",
+    "dir_method_manual": "1. Enter path manually",
+    "dir_method_explorer": "2. Select via file explorer",
+    "dir_method_current": "3. Use current directory",
+    "enter_dir": "Enter full path to working directory: ",
+    "dir_not_exists": "Specified directory does not exist",
+    "not_git_repo": "Selected directory doesn't contain git repository. Continue? (y/n): ",
+    "profile_created": "Profile '{0}' created successfully!",
+    "created_and_switched": "Profile '{0}' created and activated successfully!",
+    "current_profile": "Current profile: {0}",
+    "work_dir": "Working directory: {0}",
+    "interface_lang": "Interface language: {0}",
+    "select_folder_title": "Select folder with git repository",
+    "using_current": "Using current directory: {}"
+  },
+  "language_selection": {
+    "title": "Select Interface Language",
+    "prompt": "Select language (1-{0} or 'q' to cancel): ",
+    "column_number": "#",
+    "column_language": "Language",
+    "column_code": "Code",
+    "column_flag": "Flag",
+    "canceled": "Language selection canceled",
+    "invalid_choice": "Invalid choice. Please try again."
   }
 }
