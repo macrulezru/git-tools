@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "Ласкаво просимо до Git Branch Manager!",
+    "initial_config": "Виконайте початкове налаштування",
+    "step1": "1. Вибір мови",
+    "step2": "2. Робоча директорія",
+    "step3": "3. Префікс для нових гілок",
+    "choose_language": "Виберіть мову (за замовчуванням: {default})",
+    "enter_workdir": "Введіть шлях до git репозиторію",
+    "invalid_repo": "Помилка: Вказана директорія не є git репозиторієм",
+    "enter_prefix": "Введіть префікс для гілок (наприклад, {example})",
+    "setup_complete": "Налаштування завершено!",
+    "current_settings": "Поточні налаштування"
+  },
   "app": {
     "title": "Менеджер гілок Git - Python версія",
     "help_prompt": "Введіть 'help' для списку команд\n",

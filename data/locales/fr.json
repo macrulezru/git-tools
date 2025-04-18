@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "Bienvenue dans Git Branch Manager !",
+    "initial_config": "Effectuez la configuration initiale",
+    "step1": "1. Sélection de la langue",
+    "step2": "2. Répertoire de travail",
+    "step3": "3. Préfixe pour les nouvelles branches",
+    "choose_language": "Choisissez la langue (par défaut : {default})",
+    "enter_workdir": "Entrez le chemin vers le dépôt git",
+    "invalid_repo": "Erreur : Le répertoire spécifié n'est pas un dépôt git",
+    "enter_prefix": "Entrez un préfixe pour les branches (par ex., {example})",
+    "setup_complete": "Configuration terminée !",
+    "current_settings": "Paramètres actuels"
+  },
   "app": {
     "title": "Gestionnaire de Branches Git - Version Python",
     "help_prompt": "Tapez 'help' pour la liste des commandes\n",

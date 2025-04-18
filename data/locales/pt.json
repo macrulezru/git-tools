@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "Bem-vindo ao Git Branch Manager!",
+    "initial_config": "Complete a configuração inicial",
+    "step1": "1. Seleção de idioma",
+    "step2": "2. Diretório de trabalho",
+    "step3": "3. Prefixo para novos branches",
+    "choose_language": "Selecione o idioma (padrão: {default})",
+    "enter_workdir": "Digite o caminho para o repositório git",
+    "invalid_repo": "Erro: O diretório especificado não é um repositório git",
+    "enter_prefix": "Digite o prefixo para branches (por exemplo, {example})",
+    "setup_complete": "Configuração concluída!",
+    "current_settings": "Configurações atuais"
+  },
   "app": {
     "title": "Gerenciador de Branches Git - Versão Python",
     "help_prompt": "Digite 'help' para lista de comandos\n",
@@ -42,7 +55,6 @@
     "use_help": "Use 'help', 'h' ou 'm' para lista de comandos",
     "npm_dependencies_installing": "Instalando dependências npm...",
     "npm_dependencies_installed": "Dependências instaladas"
-
   },
   "branch": {
     "create_title": "Criar novo branch",

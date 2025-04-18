@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "¡Bienvenido a Git Branch Manager!",
+    "initial_config": "Complete la configuración inicial",
+    "step1": "1. Selección de idioma",
+    "step2": "2. Directorio de trabajo",
+    "step3": "3. Prefijo para nuevas ramas",
+    "choose_language": "Seleccione idioma (predeterminado: {default})",
+    "enter_workdir": "Ingrese ruta al repositorio git",
+    "invalid_repo": "Error: El directorio especificado no es un repositorio git",
+    "enter_prefix": "Ingrese prefijo para ramas (ej., {example})",
+    "setup_complete": "¡Configuración completada!",
+    "current_settings": "Configuración actual"
+  },
   "app": {
     "title": "Gestor de Ramas Git - Versión Python",
     "help_prompt": "Escribe 'help' para ver la lista de comandos\n",

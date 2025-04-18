@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "Git Branch Managerへようこそ！",
+    "initial_config": "初期設定を完了してください",
+    "step1": "1. 言語選択",
+    "step2": "2. 作業ディレクトリ",
+    "step3": "3. 新しいブランチのプレフィックス",
+    "choose_language": "言語を選択 (デフォルト: {default})",
+    "enter_workdir": "gitリポジトリのパスを入力",
+    "invalid_repo": "エラー: 指定されたディレクトリはgitリポジトリではありません",
+    "enter_prefix": "ブランチのプレフィックスを入力 (例: {example})",
+    "setup_complete": "セットアップ完了！",
+    "current_settings": "現在の設定"
+  },
   "app": {
     "title": "Gitブランチマネージャー - Python版",
     "help_prompt": "コマンド一覧は'help'と入力\n",

@@ -7,6 +7,19 @@
     "version": "1.0",
     "authors": ["Danil Lisin"]
   },
+  "setup": {
+    "welcome": "Բարի գալուստ Git Branch Manager!",
+    "initial_config": "Ավարտեք նախնական կարգավորումը",
+    "step1": "1. Լեզվի ընտրություն",
+    "step2": "2. Աշխատանքային պանակ",
+    "step3": "3. Նախածանց նոր ճյուղերի համար",
+    "choose_language": "Ընտրեք լեզուն (լռելյայն: {default})",
+    "enter_workdir": "Մուտքագրեք git պահոցի ճանապարհը",
+    "invalid_repo": "Սխալ: Նշված պանակը git պահոց չէ",
+    "enter_prefix": "Մուտքագրեք նախածանց ճյուղերի համար (օրինակ՝ {example})",
+    "setup_complete": "Կարգավորումն ավարտված է!",
+    "current_settings": "Ընթացիկ կարգավորումներ"
+  },
   "app": {
     "title": "Git Ճյուղերի Կառավարիչ - Python տարբերակ",
     "help_prompt": "Մուտքագրեք 'help' հրամանների ցանկի համար\n",
