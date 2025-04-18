@@ -4,6 +4,7 @@ from rich.style import Style
 from rich.color import Color
 from rich.panel import Panel
 from rich.console import Console
+from rich.columns import Columns
 from rich.table import Table
 from rich.text import Text
 from rich.box import ROUNDED
@@ -11,6 +12,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeRe
 from rich.prompt import Prompt
 import random
 import os
+from tkinter import Tk, filedialog
 from pyreadline3 import Readline
 from typing import List, Dict, Optional, Callable, Any
 from .localization import LocalizationManager
@@ -49,10 +51,6 @@ class UIManager:
 
     def run_first_time_setup(self):
         """Запускает красивый мастер первоначальной настройки"""
-        from rich.panel import Panel
-        from rich.text import Text
-        from rich.columns import Columns
-
         # Красивое приветствие
         self.console.print(Panel.fit(
             "[bold green]🌍 Git Branch Manager - Первоначальная настройка[/]",
@@ -65,23 +63,30 @@ class UIManager:
         self._setup_language()
 
         # 2. Выбор рабочей директории
-        self._setup_work_directory()
+        work_dir = self._setup_work_directory(first_run=True)
 
         # 3. Настройка префикса веток
-        self._setup_branch_prefix()
+        prefix = self._setup_branch_prefix(first_run=True)
 
-        # Итоговое сообщение с использованием Columns для красивого расположения
+        # Создаем первый профиль
+        self.config.initialize_first_profile(
+            prefix=prefix,
+            work_dir=work_dir,
+            locale=self.locale.current_locale
+        )
+
+        # Итоговое сообщение
         summary = Columns([
             Panel(
                 f"[bold]Язык:[/]\n{self._get_current_language_display()}",
                 border_style="blue"
             ),
             Panel(
-                f"[bold]Директория:[/]\n[cyan]{self.config.branch_settings['WorkDir']}[/]",
+                f"[bold]Директория:[/]\n[cyan]{work_dir}[/]",
                 border_style="blue"
             ),
             Panel(
-                f"[bold]Префикс:[/]\n[cyan]{self.config.branch_settings['Prefix']}[/]",
+                f"[bold]Префикс:[/]\n[cyan]{prefix}[/]",
                 border_style="blue"
             )
         ], expand=True)
@@ -93,7 +98,7 @@ class UIManager:
         ))
         self.console.print(summary)
 
-        # Сообщение о перезапуске с иконкой и стилизацией
+        # Сообщение о перезапуске
         restart_message = Text.assemble(
             ("⚠ ", "bold yellow"),
             ("Для применения настроек ", ""),
@@ -136,10 +141,8 @@ class UIManager:
         table.add_column("Код", style="dim", width=5)
 
         for idx, lang in enumerate(languages, 1):
-            # Безопасное получение данных с fallback-значениями
             lang_name = lang.get('name', lang['code'].upper())
             native_name = lang.get('native_name', lang_name)
-
             is_current = "✓" if lang['code'] == self.locale.current_locale else ""
             table.add_row(
                 str(idx),
@@ -153,26 +156,41 @@ class UIManager:
         self.console.print()
 
         while True:
-            choice = input(f"Выберите язык (1-{len(languages)}): ").strip()
+            choice = input(f"{self.locale.tr("language_selection.prompt").format(len(languages))}").strip()
 
             if choice.isdigit() and 1 <= int(choice) <= len(languages):
                 selected = languages[int(choice)-1]
-                self.locale.change_language(selected['code'])
-                self.config.branch_settings['Locale'] = selected['code']
-                break
+                if self.locale.change_language(selected['code']):
+                    break
             else:
-                self.console.print("[red]Неверный выбор. Попробуйте снова.[/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
-    def _setup_work_directory(self):
-        """Выбор папки репозитория как в основном интерфейсе"""
-        from tkinter import filedialog
-        from tkinter import Tk
+    def _setup_work_directory(self, first_run=False):
+        """Выбор папки репозитория с учетом первого запуска"""
+        if first_run:
+            self.console.print(Panel.fit(
+                "[bold]1. Выберите рабочую директорию с git-репозиторием[/bold]",
+                border_style="blue"
+            ))
 
-        self.console.print()
-        self.console.print(Panel.fit(
-            "[bold]2. Выберите рабочую директорию с git-репозиторием[/bold]",
-            border_style="blue"
-        ))
+        while True:
+            # Создаем и сразу скрываем окно Tkinter
+            root = Tk()
+            root.withdraw()
+            root.wm_attributes('-topmost', 1)  # Окно поверх других
+            
+            work_dir = filedialog.askdirectory(title="Выберите папку с git-репозиторием")
+            root.destroy()  # Закрываем окно после выбора
+
+            if not work_dir:  # Если пользователь отменил выбор
+                work_dir = os.getcwd()
+                self.console.print(f"[yellow]{self.locale.tr("directory.using_current").format(work_dir=work_dir)}[/yellow]")
+            
+            # Проверяем, что это git-репозиторий
+            if os.path.isdir(os.path.join(work_dir, ".git")):
+                return work_dir
+                
+            self.console.print(f"[red]{self.locale.tr('errors.not_git_repo')}[/red]")
 
         while True:
             self.console.print("\n[dim]Текущий выбор:[/dim] [cyan]Выберите папку[/cyan]")
@@ -213,15 +231,24 @@ class UIManager:
                     # Сохраняем настройки в файл
                     self.config.save_settings()
                     break
-                self.console.print("[red]Указанная папка не содержит git-репозиторий![/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.not_git_repo')}[/red]")
 
             elif choice == 'q':
                 exit(0)
 
             else:
-                self.console.print("[red]Неверный выбор. Попробуйте снова.[/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
-    def _setup_branch_prefix(self):
+    def _setup_branch_prefix(self, first_run=False):
+        """Настройка префикса веток с учетом первого запуска"""
+        if first_run:
+            self.console.print(Panel.fit(
+                "[bold]2. Настройте префикс для новых веток[/bold]",
+                border_style="blue"
+            ))
+    
+        return input("Введите префикс (например, dl/TTSH-): ").strip() or "dl/TTSH-"
+        
         """Настройка префикса веток"""
         self.console.print()
         self.console.print(Panel.fit(
@@ -377,7 +404,11 @@ class UIManager:
 
     def prompt(self) -> str:
         """Формирует приглашение командной строки"""
-        current_path = self.config.branch_settings["WorkDir"]
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            return "gitTools [ERROR: No profile]> "
+        
+        current_path = current_settings["WorkDir"]
         branch = self.git.get_current_branch() if self.git else None
 
         prefix_color = self.color_codes["dark_gray"]
@@ -438,6 +469,11 @@ class UIManager:
 
     def show_branches(self):
         """Показывает список веток с возможностью выбора"""
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error("No active profile")
+            return
+        
         branch_data = self.git._get_branch_data()
         if not branch_data:
             self.show_error(self.locale.tr('errors.no_branches'))
@@ -471,10 +507,10 @@ class UIManager:
                         package_json = os.path.join(work_dir, "package.json")
 
                         if os.path.isfile(package_json):
-                            self.console.print("\n[bold yellow]Обнаружен package.json, запускаю npm install...[/bold yellow]")
+                            self.console.print(f"\n[bold yellow]{self.locale.tr("npm.detected")}[/bold yellow]")
                             self.git._run_npm_install()
                         else:
-                            self.console.print("\n[dim]package.json не обнаружен, пропускаю npm install[/dim]")
+                            self.console.print(f"\n[dim]{self.locale.tr("npm.not_detected")}[/dim]")
                         
                         return
                     else:
@@ -706,6 +742,7 @@ class UIManager:
             {"key": "w", "description": self.locale.tr("menu.change_directory"), "action": self.change_work_directory},
             {"key": "r", "description": self.locale.tr("menu.change_remote"), "action": self.set_default_remote},
             {"key": "n", "description": self.locale.tr("menu.npm_scripts"), "action": self.show_npm_scripts},
+            {"key": "p", "description": self.locale.tr("menu.profiles"), "action": self.manager.show_profiles_menu()},
             {"key": "l", "description": self.locale.tr("menu.change_language"), "action": self.change_language_interactive},
             {"key": "Q", "description": self.locale.tr("menu.exit"), "action": lambda: None},
         ]
@@ -763,6 +800,7 @@ class UIManager:
             {"key": "r", "description": self.locale.tr("menu.change_remote")},
             {"key": "n", "description": self.locale.tr("menu.npm_scripts")},
             {"key": "m", "description": self.locale.tr("menu.show_menu")},
+            {"key": "p", "description": self.locale.tr("menu.profiles")},
             {"key": "l", "description": self.locale.tr("menu.change_language")},
             {"key": "Q", "description": self.locale.tr("menu.exit")},
         ]

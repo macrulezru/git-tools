@@ -11,7 +11,7 @@ class LocalizationManager:
         self.load_locales()
 
     def get_supported_languages(self) -> List[Dict[str, Any]]:
-        """Динамически сканирует папку locales и возвращает список языков с метаданными"""
+        """Возвращает список доступных языков с метаданными"""
         locales_dir = Path(__file__).parent / 'locales'
         languages = []
 
@@ -20,21 +20,15 @@ class LocalizationManager:
                 with open(locale_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     meta = data.get('_meta', {})
-
-                    # Определяем код языка из имени файла или метаданных
-                    lang_code = meta.get('language_code', locale_file.stem)
-
+                    
                     languages.append({
-                        'code': lang_code,
-                        'name': meta.get('language_name', lang_code),
-                        'flag': meta.get('flag', '🌐'),
-                        'file': locale_file.name,
-                        'native_name': meta.get('native_name', lang_code)
+                        'code': meta.get('language_code', locale_file.stem),
+                        'name': meta.get('language_name', meta.get('language_code', locale_file.stem).upper()),
+                        'native_name': meta.get('native_name', meta.get('language_name', meta.get('language_code', locale_file.stem).upper()))
                     })
             except Exception as e:
                 print(f"Error loading locale {locale_file}: {str(e)}")
 
-        # Сортируем языки по имени для удобства
         return sorted(languages, key=lambda x: x['name'])
 
     def load_locales(self):
@@ -100,39 +94,18 @@ class LocalizationManager:
             except:
                 return text
         return text
-
-    def get_supported_languages(self) -> List[Dict[str, Any]]:
-        """Динамически сканирует папку locales и возвращает список языков с метаданными"""
-        locales_dir = Path(__file__).parent / 'locales'
-        languages = []
-
-        for locale_file in locales_dir.glob('*.json'):
-            try:
-                with open(locale_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    meta = data.get('_meta', {})
-
-                    lang_code = meta.get('language_code', locale_file.stem)
-
-                    # Устанавливаем значения по умолчанию для всех обязательных полей
-                    languages.append({
-                        'code': lang_code,
-                        'name': meta.get('language_name', lang_code.upper()),
-                        'flag': meta.get('flag', '🌐'),
-                        'file': locale_file.name,
-                        'native_name': meta.get('native_name', meta.get('language_name', lang_code.upper()))
-                    })
-            except Exception as e:
-                print(f"Error loading locale {locale_file}: {str(e)}")
-
-        # Сортируем языки по имени для удобства
-        return sorted(languages, key=lambda x: x['name'])
-
-    def change_language(self, lang_code: str):
-        """Изменяет текущий язык"""
+    
+    def change_language(self, lang_code: str) -> bool:
+        """Изменяет текущий язык с обновлением интерфейса"""
         if lang_code in self.available_locales:
             self.current_locale = lang_code
-            self.config.branch_settings['Locale'] = lang_code
-            self.config.save_settings()
+            current_settings = self.config.get_current_settings()
+            if current_settings:
+                current_settings["Locale"] = lang_code
+                self.config.save_settings()
+                
+                # Применяем изменения к UI
+                if hasattr(self, 'ui'):
+                    self.ui.locale = self
             return True
         return False
