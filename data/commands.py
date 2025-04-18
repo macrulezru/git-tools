@@ -14,7 +14,13 @@ class GitCommands:
 
     def run_git_command(self, command: str, check: bool = False, cwd: Optional[str] = None) -> Optional[str]:
         try:
-            working_dir = self.config.branch_settings["WorkDir"]
+            # Получаем настройки текущего профиля
+            current_settings = self.config.get_current_settings()
+            if not current_settings:
+                self.ui.show_error("No active profile selected")
+                return None
+
+            working_dir = current_settings["WorkDir"]
 
             if not os.path.isdir(working_dir):
                 self.ui.show_error(self.locale.tr('errors.directory_not_exists').format(working_dir))
@@ -36,7 +42,7 @@ class GitCommands:
                 text=True,
                 check=check,
                 cwd=working_dir,
-                encoding=encoding  # Указываем кодировку
+                encoding=encoding
             )
             return result.stdout.strip()
         except subprocess.CalledProcessError as e:
@@ -49,6 +55,10 @@ class GitCommands:
     def _get_default_branch(self) -> str:
         """Определяет основную ветку (master или main)"""
         try:
+            current_settings = self.config.get_current_settings()
+            if not current_settings:
+                return 'master'
+                
             result = self.run_git_command("symbolic-ref refs/remotes/origin/HEAD")
             if result:
                 return result.split('/')[-1]
@@ -89,8 +99,13 @@ class GitCommands:
         return sorted(branch_data, key=lambda x: x["last_commit_timestamp"], reverse=True)
 
     def _run_npm_install(self):
-        """Выполняет npm install в текущей директории с прогресс-баром"""
-        work_dir = self.config.branch_settings["WorkDir"]
+        """Выполняет npm install в текущей директории"""
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.ui.show_error("No active profile")
+            return
+
+        work_dir = current_settings["WorkDir"]
         package_json = os.path.join(work_dir, "package.json")
 
         if not os.path.isfile(package_json):
@@ -139,7 +154,11 @@ class GitCommands:
             
     def get_npm_scripts(self) -> Optional[Dict[str, str]]:
         """Получает npm-скрипты из package.json"""
-        work_dir = self.config.branch_settings["WorkDir"]
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            return None
+
+        work_dir = current_settings["WorkDir"]
         package_json = os.path.join(work_dir, "package.json")
 
         if not os.path.isfile(package_json):

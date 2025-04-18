@@ -11,24 +11,33 @@ from rich.box import ROUNDED
 
 class GitBranchManager:
     def __init__(self):
-        self.config = ConfigManager()
-
-        if self.config.is_first_run():
-            # Инициализируем с минимальными настройками для мастера настройки
+        try:
+            self.config = ConfigManager()
+            
+            # Временная инициализация для первого запуска
+            temp_locale = LocalizationManager(self.config)
+            self.ui = UIManager(self.config, temp_locale)
+            
+            if self.config.is_first_run():
+                try:
+                    self.ui.run_first_time_setup()
+                except Exception as e:
+                    self.ui.console.print(f"[red]Ошибка при настройке: {str(e)}[/red]")
+                    exit(1)
+                    
+            # Полная инициализация
             self.locale = LocalizationManager(self.config)
             self.ui = UIManager(self.config, self.locale)
-            self.ui.run_first_time_setup()
+            self.git = GitCommands(self.config, self.locale, self.ui)
+            
+            # Устанавливаем взаимные ссылки
+            self.ui.git = self.git
+            self.ui.manager = self
+            self.git.ui = self.ui
 
-        # Стандартная инициализация
-        self.config.load_settings()
-        self.locale = LocalizationManager(self.config)
-        self.ui = UIManager(self.config, self.locale)
-        self.git = GitCommands(self.config, self.locale, self.ui)
-
-        # Устанавливаем взаимные ссылки
-        self.ui.git = self.git
-        self.ui.manager = self  # Добавляем эту строку
-        self.git.ui = self.ui
+        except Exception as e:
+            print(f"Критическая ошибка инициализации: {str(e)}")
+            exit(1)
 
         # Загружаем настройки
         self.config.load_settings()
@@ -367,3 +376,215 @@ class GitBranchManager:
             self.config.clear_prefix_history()
             self.config.clear_dir_history()
             self.ui.show_success(self.tr('history.cleared'))
+            
+    def show_profiles_menu(self):
+        """Показывает меню управления профилями"""
+        profiles = self.config.profiles
+        current = self.config.current_profile
+
+        table = Table(
+            title=self.tr("profiles.title"),
+            box=ROUNDED,
+            header_style="bold cyan"
+        )
+        table.add_column("#", style="green", width=5)
+        table.add_column(self.tr("profiles.name"), style="white", min_width=15)
+        table.add_column(self.tr("profiles.prefix"), style="cyan", width=15)
+        table.add_column(self.tr("profiles.workdir"), style="dim", min_width=30)
+        table.add_column("", style="dim", width=5)
+
+        for idx, profile in enumerate(profiles, 1):
+            is_current = "✓" if profile["ProfileName"] == current else ""
+            table.add_row(
+                str(idx),
+                profile["ProfileName"],
+                profile["Prefix"],
+                profile["WorkDir"],
+                is_current
+            )
+
+        self.ui.console.print()
+        self.ui.console.print(table)
+        self.ui.console.print()
+
+        options = [
+            {"key": "s", "description": self.tr("profiles.switch"), "action": self._switch_profile},
+            {"key": "a", "description": self.tr("profiles.add"), "action": self._add_profile},
+            {"key": "d", "description": self.tr("profiles.delete"), "action": self._delete_profile},
+            {"key": "q", "description": self.tr("menu.exit"), "action": lambda: None}
+        ]
+
+        for option in options:
+            self.ui.console.print(f"[bold green]{option['key']}[/bold green] - {option['description']}")
+
+        while True:
+            choice = input(f"{self.tr('profiles.select_action')}: ").strip().lower()
+            selected = next((o for o in options if o["key"].lower() == choice), None)
+
+            if selected:
+                try:
+                    selected["action"]()
+                    break
+                except Exception as e:
+                    self.ui.show_error(self.tr('errors.command_failed').format(e))
+            else:
+                self.ui.show_error(self.tr('errors.invalid_choice'))
+
+    def _switch_profile(self):
+        """Переключает профиль"""
+        profiles = self.config.profiles
+        choice = input(self.tr("profiles.select_switch")).strip()
+        
+        if choice.isdigit() and 1 <= int(choice) <= len(profiles):
+            profile = profiles[int(choice)-1]
+            if self.config.switch_profile(profile["ProfileName"]):
+                self.ui.show_success(self.tr('profiles.switched').format(profile["ProfileName"]))
+                # Обновляем локализацию
+                self.locale.current_locale = profile["Locale"]
+                self.locale.load_locales()
+        else:
+            self.ui.show_error(self.tr('errors.invalid_choice'))
+
+    def _add_profile(self):
+        """Добавляет новый профиль с выбором способа ввода рабочей папки"""
+        try:
+            from tkinter import filedialog
+            from tkinter import Tk
+
+            self.ui.console.print("\n[bold]Добавление нового профиля[/bold]")
+            
+            # Ввод имени профиля
+            name = input("Введите имя нового профиля: ").strip()
+            if not name:
+                self.ui.show_error("Имя профиля не может быть пустым")
+                return
+
+            if any(p["ProfileName"] == name for p in self.config.profiles):
+                self.ui.show_error("Профиль с таким именем уже существует")
+                return
+
+            # Ввод префикса
+            prefix = input("Введите префикс веток (по умолчанию dl/TTSH-): ").strip() or "dl/TTSH-"
+            
+            # Ввод удаленного репозитория
+            remote = input("Введите удаленный репозиторий (по умолчанию origin): ").strip() or "origin"
+
+            # Выбор рабочей папки
+            self.ui.console.print("\n[bold]Выбор рабочей папки:[/bold]")
+            self.ui.console.print("1. Ввести путь вручную")
+            self.ui.console.print("2. Выбрать через проводник")
+            self.ui.console.print("3. Использовать текущую папку")
+            
+            work_dir = None
+            while work_dir is None:
+                choice = input("Ваш выбор (1-3): ").strip()
+                
+                if choice == '1':  # Ручной ввод
+                    work_dir = input("Введите полный путь к рабочей папке: ").strip()
+                    if not os.path.isdir(work_dir):
+                        self.ui.show_error("Указанная папка не существует")
+                        work_dir = None
+                        
+                elif choice == '2':  # Через проводник
+                    root = Tk()
+                    root.withdraw()
+                    work_dir = filedialog.askdirectory(title="Выберите папку с git-репозиторием")
+                    root.destroy()
+                    if not work_dir:
+                        self.ui.show_info("Выбор отменен, будет использована текущая папка")
+                        work_dir = os.getcwd()
+                        
+                elif choice == '3':  # Текущая папка
+                    work_dir = os.getcwd()
+                    
+                else:
+                    self.ui.show_error("Неверный выбор")
+
+            # Проверка git-репозитория
+            if not os.path.isdir(os.path.join(work_dir, ".git")):
+                confirm = input("Выбранная папка не содержит git-репозиторий. Продолжить? (y/n): ").strip().lower()
+                if confirm != 'y':
+                    return
+
+            # Выбор языка из списка доступных
+            locale = self._select_language()
+            if not locale:
+                return  # Пользователь отменил выбор
+
+            # Создание профиля
+            if self.config.add_profile(name, prefix, remote, work_dir, locale):
+                self.ui.show_success(f"Профиль '{name}' успешно создан и активирован!")
+                
+                # Обновляем локализацию согласно новому профилю
+                self.locale.change_language(locale)
+                
+                # Показываем информацию о текущем профиле
+                current_settings = self.config.get_current_settings()
+                self.ui.console.print(f"\nТекущий профиль: [bold green]{name}[/bold green]")
+                self.ui.console.print(f"Рабочая папка: [cyan]{current_settings['WorkDir']}[/cyan]")
+                self.ui.console.print(f"Язык интерфейса: [cyan]{locale}[/cyan]")
+            else:
+                self.ui.show_error("Не удалось создать профиль")
+                
+        except Exception as e:
+            self.ui.show_error(f"Ошибка при создании профиля: {str(e)}")
+
+    def _select_language(self) -> str:
+        """Отображает список доступных языков и возвращает выбранный код языка"""
+        languages = self.locale.get_supported_languages()
+        if not languages:
+            self.ui.show_error("Не найдено доступных языков")
+            return ""
+
+        # Создаем таблицу с доступными языками
+        table = Table(
+            title="Выберите язык интерфейса",
+            box=ROUNDED,
+            header_style="bold cyan",
+            border_style="blue",
+            show_lines=True
+        )
+        table.add_column("#", style="green", width=5)
+        table.add_column("Язык", style="bold", min_width=15)
+        table.add_column("Код", style="dim", width=5)
+
+        for idx, lang in enumerate(languages, 1):
+            table.add_row(
+                str(idx),
+                f"{lang['name']} ({lang['native_name']})",
+                lang['code']
+            )
+
+        self.ui.console.print()
+        self.ui.console.print(table)
+        self.ui.console.print()
+
+        while True:
+            choice = input(f"Выберите язык (1-{len(languages)} или 'q' для отмены): ").strip().lower()
+            
+            if choice == 'q':
+                return ""
+                
+            if choice.isdigit() and 1 <= int(choice) <= len(languages):
+                return languages[int(choice)-1]['code']
+                
+            self.ui.show_error("Неверный выбор. Попробуйте снова.")
+
+    def _delete_profile(self):
+        """Удаляет профиль"""
+        profiles = self.config.profiles
+        if len(profiles) <= 1:
+            self.ui.show_error(self.tr('profiles.cant_delete_last'))
+            return
+
+        choice = input(self.tr("profiles.select_delete")).strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(profiles):
+            profile = profiles[int(choice)-1]
+            if profile["ProfileName"] == "default":
+                self.ui.show_error(self.tr('profiles.cant_delete_default'))
+                return
+
+            confirm = input(self.tr("profiles.delete_confirm").format(profile["ProfileName"])).strip().lower()
+            if confirm == 'y':
+                if self.config.remove_profile(profile["ProfileName"]):
+                    self.ui.show_success(self.tr('profiles.deleted').format(profile["ProfileName"]))

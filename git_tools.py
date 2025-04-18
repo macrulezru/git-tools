@@ -4,6 +4,15 @@ import io
 import sys
 from pathlib import Path
 
+# Проверяем наличие tkinter
+try:
+    from tkinter import Tk
+except ImportError:
+    print("Ошибка: Для работы требуется tkinter. Установите его командой:")
+    print("Windows: pip install tk")
+    print("Linux: sudo apt-get install python3-tk")
+    exit(1)
+
 # Устанавливаем стандартные потоки ввода-вывода в UTF-8
 if sys.version_info[0] == 3:
     sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
@@ -65,6 +74,8 @@ def main():
                 manager.set_default_remote()
             elif command == 'n':
                 manager.ui.show_npm_scripts()
+            elif command == 'p':
+                manager.show_profiles_menu()
             elif command == 'l':
                 manager.change_language_interactive()
             elif command == 'm':
