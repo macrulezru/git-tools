@@ -459,6 +459,17 @@ class UIManager:
 
                     if new_branch == selected_branch:
                         self.show_success(self.locale.tr('branch.switch_success').format(selected_branch))
+                        
+                        # Проверяем наличие package.json
+                        work_dir = self.config.branch_settings["WorkDir"]
+                        package_json = os.path.join(work_dir, "package.json")
+
+                        if os.path.isfile(package_json):
+                            self.console.print("\n[bold yellow]Обнаружен package.json, запускаю npm install...[/bold yellow]")
+                            self.git._run_npm_install()
+                        else:
+                            self.console.print("\n[dim]package.json не обнаружен, пропускаю npm install[/dim]")
+                        
                         return
                     else:
                         self._handle_branch_switch_error(selected_branch, new_branch)
