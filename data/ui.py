@@ -47,8 +47,6 @@ class UIManager:
             "bold": "\033[1m",
         }
 
-        self._setup_history()
-
     def run_first_time_setup(self):
         """Запускает красивый мастер первоначальной настройки"""
         # Красивое приветствие
@@ -266,25 +264,6 @@ class UIManager:
             if lang['code'] == self.locale.current_locale:
                 return f"{lang['native_name']} ([dim]{lang['code']}[/])"
         return ""
-
-    def _setup_history(self):
-        """Настраивает историю команд"""
-        try:
-            if os.path.exists(self.history_file):
-                with open(self.history_file, 'r') as f:
-                    for line in f:
-                        readline.add_history(line.strip())
-        except Exception:
-            pass
-
-    def _save_history(self):
-        """Сохраняет историю команд"""
-        try:
-            with open(self.history_file, 'w') as f:
-                for i in range(readline.get_current_history_length()):
-                    f.write(readline.get_history_item(i + 1) + '\n')
-        except Exception:
-            pass
 
     def show_amiga_banner(self):
         """Идеально выровненный радужный GITTOOLS"""

@@ -42,7 +42,6 @@ def main():
                 continue
 
             if command in ['q', 'quit', 'exit']:
-                manager._save_history()
                 break
             elif command in ['h', 'help']:
                 manager.show_key_bindings_help()
@@ -88,7 +87,6 @@ def main():
             manager.show_prompt()
         except EOFError:
             print(f"\n{manager.tr('app.closing')}")
-            manager._save_history()
             break
 
 if __name__ == "__main__":

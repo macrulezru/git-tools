@@ -99,9 +99,6 @@ class GitBranchManager:
     def clear_screen(self):
         self.ui.clear_screen()
 
-    def _save_history(self):
-        self.ui._save_history()
-
     def new_branch_from_master(self):
         """Создает новую ветку от основной ветки"""
         prefix = self.config.branch_settings["Prefix"]
