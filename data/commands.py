@@ -17,7 +17,7 @@ class GitCommands:
             # Получаем настройки текущего профиля
             current_settings = self.config.get_current_settings()
             if not current_settings:
-                self.ui.show_error("No active profile selected")
+                self.ui.show_error(self.locale.tr('errors.no_active_profile'))
                 return None
 
             working_dir = current_settings["WorkDir"]
@@ -102,7 +102,7 @@ class GitCommands:
         """Выполняет npm install в текущей директории"""
         current_settings = self.config.get_current_settings()
         if not current_settings:
-            self.ui.show_error("No active profile")
+            self.ui.show_error(self.locale.tr('errors.no_active_profile'))
             return
 
         work_dir = current_settings["WorkDir"]

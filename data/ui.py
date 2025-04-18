@@ -156,14 +156,14 @@ class UIManager:
         self.console.print()
 
         while True:
-            choice = input(f"Выберите язык (1-{len(languages)}): ").strip()
+            choice = input(f"{self.locale.tr("language_selection.prompt").format(len(languages))}").strip()
 
             if choice.isdigit() and 1 <= int(choice) <= len(languages):
                 selected = languages[int(choice)-1]
                 if self.locale.change_language(selected['code']):
                     break
             else:
-                self.console.print("[red]Неверный выбор. Попробуйте снова.[/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
     def _setup_work_directory(self, first_run=False):
         """Выбор папки репозитория с учетом первого запуска"""
@@ -184,13 +184,13 @@ class UIManager:
 
             if not work_dir:  # Если пользователь отменил выбор
                 work_dir = os.getcwd()
-                self.console.print(f"[yellow]Используется текущая директория: {work_dir}[/yellow]")
+                self.console.print(f"[yellow]{self.locale.tr("directory.using_current").format(work_dir=work_dir)}[/yellow]")
             
             # Проверяем, что это git-репозиторий
             if os.path.isdir(os.path.join(work_dir, ".git")):
                 return work_dir
                 
-            self.console.print("[red]Выбранная папка не содержит git-репозиторий! Попробуйте снова.[/red]")
+            self.console.print(f"[red]{self.locale.tr('errors.not_git_repo')}[/red]")
 
         while True:
             self.console.print("\n[dim]Текущий выбор:[/dim] [cyan]Выберите папку[/cyan]")
@@ -231,13 +231,13 @@ class UIManager:
                     # Сохраняем настройки в файл
                     self.config.save_settings()
                     break
-                self.console.print("[red]Указанная папка не содержит git-репозиторий![/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.not_git_repo')}[/red]")
 
             elif choice == 'q':
                 exit(0)
 
             else:
-                self.console.print("[red]Неверный выбор. Попробуйте снова.[/red]")
+                self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
     def _setup_branch_prefix(self, first_run=False):
         """Настройка префикса веток с учетом первого запуска"""
@@ -507,10 +507,10 @@ class UIManager:
                         package_json = os.path.join(work_dir, "package.json")
 
                         if os.path.isfile(package_json):
-                            self.console.print("\n[bold yellow]Обнаружен package.json, запускаю npm install...[/bold yellow]")
+                            self.console.print(f"\n[bold yellow]{self.locale.tr("npm.detected")}[/bold yellow]")
                             self.git._run_npm_install()
                         else:
-                            self.console.print("\n[dim]package.json не обнаружен, пропускаю npm install[/dim]")
+                            self.console.print(f"\n[dim]{self.locale.tr("npm.not_detected")}[/dim]")
                         
                         return
                     else:

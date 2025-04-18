@@ -249,7 +249,7 @@ class GitBranchManager:
             
             # Запрашиваем подтверждение только если есть изменения
             if confirm:
-                choice = input("\nВы уверены, что хотите сбросить ветку с потерей изменений? (y/n): ").strip().lower()
+                choice = input(f"\n{self.locale.tr("reset.master_confirm")} ").strip().lower()
                 if choice != 'y':
                     return
         elif confirm:
@@ -268,7 +268,7 @@ class GitBranchManager:
 
             # Если текущая ветка не master/main, сначала переключаемся
             if current_branch != default_branch:
-                progress.update(task, description=f"[cyan]Переключение на {default_branch}...")
+                progress.update(task, description=f"[cyan]{self.locale.tr("branch.switching").format(default_branch=default_branch)}")
                 self.git.run_git_command(f"checkout -f {default_branch}")
                 progress.update(task, advance=20)
 
@@ -433,7 +433,7 @@ class GitBranchManager:
     def _switch_profile(self):
         """Переключает профиль"""
         profiles = self.config.profiles
-        choice = input(self.tr("profiles.select_switch")).strip()
+        choice = input(self.tr("profiles.select_switch").format(len(profiles))).strip()
         
         if choice.isdigit() and 1 <= int(choice) <= len(profiles):
             profile = profiles[int(choice)-1]
@@ -451,83 +451,120 @@ class GitBranchManager:
             from tkinter import filedialog
             from tkinter import Tk
 
-            self.ui.console.print("\n[bold]Добавление нового профиля[/bold]")
-            
+            self.ui.console.print(f"\n[bold]{self.locale.tr('profiles.add_title')}[/bold]")
+
             # Ввод имени профиля
-            name = input("Введите имя нового профиля: ").strip()
+            name = input(self.locale.tr("profiles.enter_name")).strip()
             if not name:
-                self.ui.show_error("Имя профиля не может быть пустым")
+                self.ui.show_error(self.locale.tr('profiles.name_empty'))
                 return
 
             if any(p["ProfileName"] == name for p in self.config.profiles):
-                self.ui.show_error("Профиль с таким именем уже существует")
+                self.ui.show_error(self.locale.tr('profiles.name_exists'))
                 return
 
             # Ввод префикса
-            prefix = input("Введите префикс веток (по умолчанию dl/TTSH-): ").strip() or "dl/TTSH-"
-            
+            prefix = input(self.locale.tr("profiles.enter_prefix")).strip() or "dl/TTSH-"
+
             # Ввод удаленного репозитория
-            remote = input("Введите удаленный репозиторий (по умолчанию origin): ").strip() or "origin"
+            remote = input(self.locale.tr("profiles.enter_remote")).strip() or "origin"
 
             # Выбор рабочей папки
-            self.ui.console.print("\n[bold]Выбор рабочей папки:[/bold]")
-            self.ui.console.print("1. Ввести путь вручную")
-            self.ui.console.print("2. Выбрать через проводник")
-            self.ui.console.print("3. Использовать текущую папку")
-            
+            self.ui.console.print(f"\n[bold]{self.locale.tr('profiles.select_dir_method')}[/bold]")
+            self.ui.console.print(f"{self.locale.tr('profiles.dir_method_manual')}")
+            self.ui.console.print(f"{self.locale.tr('profiles.dir_method_explorer')}")
+            self.ui.console.print(f"{self.locale.tr('profiles.dir_method_current')}")
+
             work_dir = None
             while work_dir is None:
-                choice = input("Ваш выбор (1-3): ").strip()
-                
+                choice = input(f"{self.locale.tr('menu.select_option')} (1-3): ").strip()
+
                 if choice == '1':  # Ручной ввод
-                    work_dir = input("Введите полный путь к рабочей папке: ").strip()
+                    work_dir = input(self.locale.tr("profiles.enter_dir")).strip()
                     if not os.path.isdir(work_dir):
-                        self.ui.show_error("Указанная папка не существует")
+                        self.ui.show_error(self.locale.tr('profiles.dir_not_exists'))
                         work_dir = None
-                        
+
                 elif choice == '2':  # Через проводник
                     root = Tk()
                     root.withdraw()
-                    work_dir = filedialog.askdirectory(title="Выберите папку с git-репозиторием")
+                    work_dir = filedialog.askdirectory(title=self.locale.tr("profiles.select_folder_title"))
                     root.destroy()
                     if not work_dir:
-                        self.ui.show_info("Выбор отменен, будет использована текущая папка")
+                        self.ui.show_info(self.locale.tr("profiles.using_current"))
                         work_dir = os.getcwd()
-                        
+
                 elif choice == '3':  # Текущая папка
                     work_dir = os.getcwd()
-                    
+
                 else:
-                    self.ui.show_error("Неверный выбор")
+                    self.ui.show_error(self.locale.tr('errors.invalid_choice'))
 
             # Проверка git-репозитория
             if not os.path.isdir(os.path.join(work_dir, ".git")):
-                confirm = input("Выбранная папка не содержит git-репозиторий. Продолжить? (y/n): ").strip().lower()
+                confirm = input(self.locale.tr("profiles.not_git_repo")).strip().lower()
                 if confirm != 'y':
                     return
 
             # Выбор языка из списка доступных
-            locale = self._select_language()
-            if not locale:
-                return  # Пользователь отменил выбор
+            languages = self.locale.get_supported_languages()
+            if not languages:
+                self.ui.show_error(self.locale.tr('errors.no_languages'))
+                return ""
+
+            # Создаем таблицу с доступными языками
+            table = Table(
+                title=self.locale.tr("language_selection.title"),
+                box=ROUNDED,
+                header_style="bold cyan",
+                border_style="blue",
+                show_lines=True
+            )
+            table.add_column(self.locale.tr("language_selection.column_number"), style="green", width=5)
+            table.add_column(self.locale.tr("language_selection.column_language"), style="bold", min_width=15)
+            table.add_column(self.locale.tr("language_selection.column_code"), style="dim", width=5)
+
+            for idx, lang in enumerate(languages, 1):
+                table.add_row(
+                    str(idx),
+                    f"{lang['name']} ({lang['native_name']})",
+                    lang['code']
+                )
+
+            self.ui.console.print()
+            self.ui.console.print(table)
+            self.ui.console.print()
+
+            while True:
+                choice = input(self.locale.tr("language_selection.prompt").format(len(languages)).strip().lower())
+
+                if choice == 'q':
+                    self.ui.show_info(self.locale.tr("language_selection.canceled"))
+                    return ""
+
+                if choice.isdigit() and 1 <= int(choice) <= len(languages):
+                    locale = languages[int(choice)-1]['code']
+                    break
+
+                self.ui.show_error(self.locale.tr("language_selection.invalid_choice"))
 
             # Создание профиля
             if self.config.add_profile(name, prefix, remote, work_dir, locale):
-                self.ui.show_success(f"Профиль '{name}' успешно создан и активирован!")
-                
+                self.ui.show_success(self.locale.tr("profiles.created_and_switched").format(name))
+
                 # Обновляем локализацию согласно новому профилю
                 self.locale.change_language(locale)
-                
+
                 # Показываем информацию о текущем профиле
                 current_settings = self.config.get_current_settings()
-                self.ui.console.print(f"\nТекущий профиль: [bold green]{name}[/bold green]")
-                self.ui.console.print(f"Рабочая папка: [cyan]{current_settings['WorkDir']}[/cyan]")
-                self.ui.console.print(f"Язык интерфейса: [cyan]{locale}[/cyan]")
+                self.ui.console.print(f"\n{self.locale.tr('profiles.current_profile').format(name)}")
+                self.ui.console.print(f"{self.locale.tr('profiles.work_dir').format(current_settings['WorkDir'])}")
+                self.ui.console.print(f"{self.locale.tr('profiles.interface_lang').format(locale)}")
             else:
-                self.ui.show_error("Не удалось создать профиль")
-                
+                self.ui.show_error(self.locale.tr("profiles.add_failed"))
+
         except Exception as e:
-            self.ui.show_error(f"Ошибка при создании профиля: {str(e)}")
+            self.ui.show_error(f"{self.locale.tr('errors.command_failed').format(str(e))}")
 
     def _select_language(self) -> str:
         """Отображает список доступных языков и возвращает выбранный код языка"""
@@ -560,14 +597,14 @@ class GitBranchManager:
         self.ui.console.print()
 
         while True:
-            choice = input(f"Выберите язык (1-{len(languages)} или 'q' для отмены): ").strip().lower()
-            
+            choice = input(f"Выберите язык (1-{len(languages)} или 'q' для отмены: ").strip().lower()
+
             if choice == 'q':
                 return ""
-                
+
             if choice.isdigit() and 1 <= int(choice) <= len(languages):
                 return languages[int(choice)-1]['code']
-                
+
             self.ui.show_error("Неверный выбор. Попробуйте снова.")
 
     def _delete_profile(self):
@@ -577,7 +614,7 @@ class GitBranchManager:
             self.ui.show_error(self.tr('profiles.cant_delete_last'))
             return
 
-        choice = input(self.tr("profiles.select_delete")).strip()
+        choice = input(self.tr("profiles.select_delete").format(len(profiles))).strip()
         if choice.isdigit() and 1 <= int(choice) <= len(profiles):
             profile = profiles[int(choice)-1]
             if profile["ProfileName"] == "default":
