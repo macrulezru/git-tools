@@ -52,7 +52,7 @@ class GitBranchManager:
         return self.git.get_current_branch()
 
     def show_prompt(self):
-        print(self.ui.prompt(), end='', flush=True)
+        print(self.ui.prompt_input(), end='', flush=True)
 
     def show_branches(self):
         self.ui.show_branches()

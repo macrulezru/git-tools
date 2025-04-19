@@ -34,6 +34,7 @@ echo Installing Python packages...
 python -m pip install --upgrade pip
 python -m pip install rich pyreadline3
 python -m pip install tk
+python -m pip install prompt_toolkit
 
 echo All dependencies installed successfully!
 echo You can now run the program with: python git_tools.py

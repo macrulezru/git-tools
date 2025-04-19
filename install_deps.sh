@@ -28,6 +28,7 @@ echo "Installing Python packages..."
 pip3 install --upgrade pip
 pip3 install rich
 pip3 install python3-tk
+pip3 install prompt_toolkit
 
 # For systems where readline is not installed by default
 if ! python3 -c "import readline" &> /dev/null; then

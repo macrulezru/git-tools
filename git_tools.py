@@ -34,9 +34,8 @@ def main():
     print(f"\n{manager.tr('app.help_prompt')}")
 
     while True:
-        manager.show_prompt()
         try:
-            command = input().strip().lower()
+            command = manager.ui.prompt_input()
 
             if not command:
                 continue

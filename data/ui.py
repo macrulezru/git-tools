@@ -17,7 +17,30 @@ from pyreadline3 import Readline
 from typing import List, Dict, Optional, Callable, Any
 from .localization import LocalizationManager
 
+from prompt_toolkit import PromptSession, HTML
+from prompt_toolkit.formatted_text import ANSI
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.completion import Completer, Completion
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.keys import Keys
+import asyncio
+
 readline = Readline()
+
+class CommandHintCompleter(Completer):
+    def __init__(self, ui_manager):
+        self.ui = ui_manager
+        
+    def get_completions(self, document, complete_event):
+        text = document.text
+        if len(text) == 1:
+            hint = self.ui.get_command_hint(text)
+            if hint:
+                yield Completion(
+                    '',
+                    start_position=0,
+                    display=HTML(f'<style fg="ansigray">| {hint}</style>')
+                )
 
 class UIManager:
     def __init__(self, config, locale):
@@ -46,6 +69,63 @@ class UIManager:
             "white": "\033[37m",
             "bold": "\033[1m",
         }
+
+        self.prompt_session = PromptSession(
+            history=FileHistory(self.history_file),
+            enable_history_search=True,
+        )
+        
+        self.command_history = []
+        if os.path.exists(self.history_file):
+            with open(self.history_file, 'r', encoding='utf-8') as f:
+                self.command_history = [line.strip() for line in f if line.strip()]
+
+        # Настройка prompt_toolkit с историей
+        self.prompt_session = PromptSession(history=FileHistory(self.history_file))
+
+    def get_prompt_text(self) -> ANSI:
+        """Форматирует текст приглашения с цветами"""
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            return ANSI("gitTools [ERROR: No profile]> ")
+        
+        current_path = current_settings["WorkDir"]
+        branch = self.git.get_current_branch() if self.git else None
+
+        shortened_path = current_path
+        home_dir = os.path.expanduser("~")
+        if current_path.startswith(home_dir):
+            shortened_path = current_path.replace(home_dir, "~", 1)
+
+        if branch:
+            return ANSI(f"\x1b[90mgitTools -> \x1b[96m{shortened_path}\x1b[92m [{branch}]\x1b[0m> ")
+        else:
+            return ANSI(f"\x1b[90mgitTools -> \x1b[96m{shortened_path}\x1b[0m> ")
+
+    def get_command_hint(self, command: str) -> Optional[str]:
+        """Возвращает подсказку для команды или None, если команда не найдена"""
+        command_hints = {
+            '1': self.locale.tr("menu.reset_master").format(self.git._get_default_branch().upper()),
+            '2': self.locale.tr("menu.reset_unstable"),
+            '3': self.locale.tr("menu.soft_reset"),
+            '4': self.locale.tr("menu.rebase"),
+            '5': self.locale.tr("menu.new_branch"),
+            '6': self.locale.tr("menu.show_branches"),
+            '7': self.locale.tr("menu.change_prefix"),
+            '8': self.locale.tr("menu.show_log"),
+            '9': self.locale.tr("menu.keys_title"),
+            's': self.locale.tr("menu.show_status"),
+            'd': self.locale.tr("menu.delete_branch"),
+            'w': self.locale.tr("menu.change_directory"),
+            'r': self.locale.tr("menu.change_remote"),
+            'n': self.locale.tr("menu.npm_scripts"),
+            'p': self.locale.tr("menu.profiles"),
+            'l': self.locale.tr("menu.change_language"),
+            'm': self.locale.tr("menu.show_menu"),
+            'h': self.locale.tr("menu.keys_title"),
+            'q': self.locale.tr("menu.exit"),
+        }
+        return command_hints.get(command.lower())
 
     def run_first_time_setup(self):
         """Запускает красивый мастер первоначальной настройки"""
@@ -381,29 +461,27 @@ class UIManager:
             console=self.console
         )
 
-    def prompt(self) -> str:
-        """Формирует приглашение командной строки"""
-        current_settings = self.config.get_current_settings()
-        if not current_settings:
-            return "gitTools [ERROR: No profile]> "
-        
-        current_path = current_settings["WorkDir"]
-        branch = self.git.get_current_branch() if self.git else None
+    def prompt_input(self) -> str:
+        """Получает ввод пользователя с подсказками"""
+        bindings = KeyBindings()
 
-        prefix_color = self.color_codes["dark_gray"]
-        path_color = self.color_codes["bright_blue"]
-        branch_color = self.color_codes["bright_green"]
-        reset_color = self.color_codes["reset"]
+        @bindings.add(Keys.Any)
+        def _(event):
+            # Обновляем подсказку при вводе
+            if len(event.current_buffer.text) == 1:
+                event.app.current_buffer.start_completion()
 
-        shortened_path = current_path
-        home_dir = os.path.expanduser("~")
-        if current_path.startswith(home_dir):
-            shortened_path = current_path.replace(home_dir, "~", 1)
-
-        if branch:
-            return f"{prefix_color}gitTools -> {path_color}{shortened_path}{branch_color} [{branch}]{reset_color}> "
-        else:
-            return f"{prefix_color}gitTools -> {path_color}{shortened_path}{reset_color}> "
+        try:
+            user_input = self.prompt_session.prompt(
+                self.get_prompt_text(),
+                completer=CommandHintCompleter(self),
+                key_bindings=bindings,
+                vi_mode=False,
+                refresh_interval=0.1,
+            )
+            return user_input.strip()
+        except (KeyboardInterrupt, EOFError):
+            return "q"
 
     def display_branch_table(self, branch_data: List[Dict[str, Any]], current_branch: Optional[str]):
         """Отображает таблицу с ветками"""
