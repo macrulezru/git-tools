@@ -957,7 +957,7 @@ class UIManager:
         languages = self.locale.get_supported_languages()
 
         if not languages:
-            self.show_error(self.tr('errors.no_languages'))
+            self.show_error(self.locale.tr('errors.no_languages'))
             return
 
         current_lang = next(
@@ -967,7 +967,7 @@ class UIManager:
 
         if current_lang:
             self.console.print(
-                f"\n{self.tr('language.current')}: "
+                f"\n{self.locale.tr('language.current')}: "
                 f"[bold]{current_lang['name']}[/bold] "
                 f"({current_lang['code']})\n"
             )
@@ -1005,8 +1005,10 @@ class UIManager:
                 selected = languages[int(choice)-1]
                 if self.locale.change_language(selected['code']):
                     # После изменения языка обновляем конфиг
-                    self.config.branch_settings['Locale'] = selected['code']
-                    self.config.save_settings()
+                    current_settings = self.config.get_current_settings()
+                    if current_settings:
+                        current_settings["Locale"] = selected['code']
+                        self.config.save_settings()
                     self.console.print(f"[green]✓ {self.locale.tr('menu.language_changed').format(selected['name'])}[/green]")
                     return
             else:
