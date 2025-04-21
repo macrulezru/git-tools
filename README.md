@@ -14,7 +14,10 @@
 ### Шаги установки:
 ```bash
 # 1. Установите необходимые зависимости
-pip install rich pyreadline
+install_deps.bat
+install_deps.sh
+
+в завивсисмости от платформы
 
 # 2. Запустите менеджер
 python git_tools.py
