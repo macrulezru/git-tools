@@ -164,6 +164,13 @@ class UIManager:
                 self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
     def _setup_work_directory(self, first_run=False):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Выбор папки репозитория с учетом первого запуска"""
         if first_run:
             self.console.print(Panel.fit(
@@ -238,6 +245,13 @@ class UIManager:
                 self.console.print(f"[red]{self.locale.tr('errors.invalid_choice')}[/red]")
 
     def _setup_branch_prefix(self, first_run=False):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Настройка префикса веток с учетом первого запуска"""
         if first_run:
             self.console.print(Panel.fit(
@@ -463,6 +477,13 @@ class UIManager:
         self._select_branch_interaction(branch_data, current_branch)
 
     def _select_branch_interaction(self, branch_data: List[Dict[str, Any]], current_branch: Optional[str]):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Обрабатывает выбор ветки пользователем"""
         branch_map = {str(idx + 1): branch["local_branch"] for idx, branch in enumerate(branch_data)}
 
@@ -502,6 +523,13 @@ class UIManager:
                 break
 
     def _handle_branch_switch_error(self, selected_branch: str, current_branch: str):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Обрабатывает ошибки при переключении ветки"""
         error_panel = Panel(
             Text(f"{self.locale.tr('branch.switch_failed').format(selected_branch)}\n"
@@ -545,6 +573,13 @@ class UIManager:
                 self.show_success(f"Switched to [bold green]{selected_branch}[/bold green] (forced)")
 
     def show_git_log(self):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Показывает историю коммитов в табличном формате без графов"""
         console = Console()
 
@@ -806,6 +841,13 @@ class UIManager:
         self.console.print()
 
     def set_branch_prefix(self):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Устанавливает префикс для веток"""
         if not self.config.prefix_history:
             self.config.prefix_history = [self.config.branch_settings["Prefix"]]
@@ -851,6 +893,13 @@ class UIManager:
                 self.show_error(self.locale.tr('errors.invalid_choice'))
 
     def set_default_remote(self):
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         """Устанавливает удаленный репозиторий по умолчанию"""
         remotes = self.git.run_git_command("remote")
         if not remotes:
@@ -885,8 +934,12 @@ class UIManager:
             self.show_happy_cat(self.locale.tr('remote.changed').format(new_remote))
 
     def change_work_directory(self):
-        """Изменяет рабочую директорию"""
-        current_dir = self.config.branch_settings["WorkDir"]
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        current_dir = current_settings["WorkDir"]
 
         table = Table(
             title=self.locale.tr("directory.title"),
@@ -1169,8 +1222,13 @@ class UIManager:
 
     def _run_npm_script(self, script_name: str, script_cmd: str):
         """Запускает npm-скрипт в новом терминале"""
-        work_dir = self.config.branch_settings["WorkDir"]
-        
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.show_error(self.locale.tr('errors.no_active_profile'))
+            return
+
+        work_dir = current_settings["WorkDir"]
+
         try:
             if os.name == 'nt':
                 # Для Windows
@@ -1187,7 +1245,7 @@ class UIManager:
                     f'{terminal} -e "bash -c \'cd "{work_dir}" && npm run {script_name}; exec bash\'"',
                     shell=True
                 )
-            
+
             self.show_success(self.locale.tr('npm.script_started').format(script_name))
         except Exception as e:
             self.show_error(self.locale.tr('npm.script_error').format(script_name, str(e)))
