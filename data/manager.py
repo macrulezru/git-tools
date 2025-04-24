@@ -265,7 +265,7 @@ class GitBranchManager:
 
             # Если текущая ветка не master/main, сначала переключаемся
             if current_branch != default_branch:
-                progress.update(task, description=f"[cyan]{self.locale.tr("branch.switching").format(default_branch=default_branch)}")
+                progress.update(task, description=f"[cyan]{self.locale.tr("branch.switching").format(default_branch)}")
                 self.git.run_git_command(f"checkout -f {default_branch}")
                 progress.update(task, advance=20)
 
