@@ -756,7 +756,7 @@ class UIManager:
             {"key": "w", "description": self.locale.tr("menu.change_directory"), "action": self.change_work_directory},
             {"key": "r", "description": self.locale.tr("menu.change_remote"), "action": self.set_default_remote},
             {"key": "n", "description": self.locale.tr("menu.npm_scripts"), "action": self.show_npm_scripts},
-            {"key": "p", "description": self.locale.tr("menu.profiles"), "action": self.manager.show_profiles_menu()},
+            {"key": "p", "description": self.locale.tr("menu.profiles"), "action": self.manager.show_profiles_menu},
             {"key": "l", "description": self.locale.tr("menu.change_language"), "action": self.change_language_interactive},
             {"key": "Q", "description": self.locale.tr("menu.exit"), "action": lambda: None},
         ]
@@ -1095,7 +1095,9 @@ class UIManager:
      /\\___/\\
     (🔥˃▽˂🔥)
      /|\\_/|\\
-      /   \\    {self.color_codes['bright_red']}{self.locale.tr('reset.master_message').format(self.git._get_default_branch().upper())}{self.color_codes['reset']}
+      /   \\
+          
+{self.color_codes['bright_red']}{self.locale.tr('reset.master_message').format(self.git._get_default_branch().upper())}{self.color_codes['reset']}
 """)
 
     def show_phoenix(self):
@@ -1104,7 +1106,9 @@ class UIManager:
     /\\_/\\
    (╯°□°╯）
      /|\\
-    /   \\     {self.color_codes['bright_yellow']}{self.locale.tr('reset.unstable_message')}{self.color_codes['reset']}
+    /   \\
+
+{self.color_codes['bright_yellow']}{self.locale.tr('reset.unstable_message')}{self.color_codes['reset']}
 """)
 
     def show_unknown_command(self, command: str):
