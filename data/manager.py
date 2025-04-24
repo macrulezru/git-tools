@@ -117,8 +117,8 @@ class GitBranchManager:
 
         print(f"\n{self.ui.color_codes['dark_cyan']}╭{'─' * 40}╮")
         print(f"│ {self.tr('branch.create_title').center(38)} │")
-        print(f"│ {self.tr('branch.prefix_label').format(prefix=prefix).ljust(38)} │")
-        print(f"│ {self.tr('branch.base_label').format(branch=default_branch).ljust(38)} │")
+        print(f"│ {self.tr('branch.prefix_label').format(prefix).ljust(38)} │")
+        print(f"│ {self.tr('branch.base_label').format(default_branch).ljust(38)} │")
         print(f"╰{'─' * 40}╯{self.ui.color_codes['reset']}\n")
 
         while True:

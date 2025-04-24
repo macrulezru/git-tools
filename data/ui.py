@@ -189,7 +189,7 @@ class UIManager:
 
             if not work_dir:  # Если пользователь отменил выбор
                 work_dir = os.getcwd()
-                self.console.print(f"[yellow]{self.locale.tr("directory.using_current").format(work_dir=work_dir)}[/yellow]")
+                self.console.print(f"[yellow]{self.locale.tr("directory.using_current").format(work_dir)}[/yellow]")
             
             # Проверяем, что это git-репозиторий
             if os.path.isdir(os.path.join(work_dir, ".git")):
