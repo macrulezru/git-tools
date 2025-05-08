@@ -264,7 +264,6 @@ class UIManager:
 
     def show_amiga_banner(self):
         """Идеально выровненный радужный GITTOOLS"""
-        from rich.text import Text
         from rich.console import Console
 
         console = Console()
@@ -378,29 +377,83 @@ class UIManager:
             console=self.console
         )
 
+    def _has_uncommitted_changes(self) -> bool:
+        """Проверяет наличие незакоммиченных изменений"""
+        if not self.git:
+            return False
+        status = self.git.run_git_command("status --porcelain")
+        return bool(status.strip())
+
+    def _get_repo_status(self) -> str:
+        """Возвращает символ статуса репозитория"""
+        if not self.git:
+            return "✖"
+        
+        if self._has_uncommitted_changes():
+            return "●"  # Красный кружок для изменений
+        return "✓"     # Зеленая галочка для чистого статуса
+
+    def _shorten_path(self, path: str) -> str:
+        """Сокращает путь для отображения"""
+        home = os.path.expanduser("~")
+        if path.startswith(home):
+            return "~" + path[len(home):]
+        
+        # Сокращаем длинные пути до 2-х уровней
+        parts = path.split(os.sep)
+        if len(parts) > 3:
+            return os.sep.join(parts[:2] + ["..."] + parts[-2:])
+        return path
+
     def prompt(self) -> str:
-        """Формирует приглашение командной строки"""
+        """Промт с визуальным разделением элементов"""
         current_settings = self.config.get_current_settings()
         if not current_settings:
-            return "gitTools [ERROR: No profile]> "
+            return "GitTools [ERROR: No profile]> "
         
-        current_path = current_settings["WorkDir"]
+        # Получаем данные
+        profile_name = current_settings["ProfileName"]
+        path = current_settings["WorkDir"]
         branch = self.git.get_current_branch() if self.git else None
-
-        prefix_color = self.color_codes["dark_gray"]
-        path_color = self.color_codes["bright_blue"]
-        branch_color = self.color_codes["bright_green"]
-        reset_color = self.color_codes["reset"]
-
-        shortened_path = current_path
+        has_changes = self._has_uncommitted_changes() if self.git else False
+        
+        # Сокращаем путь
         home_dir = os.path.expanduser("~")
-        if current_path.startswith(home_dir):
-            shortened_path = current_path.replace(home_dir, "~", 1)
-
+        if path.startswith(home_dir):
+            path = path.replace(home_dir, "~", 1)
+        
+        # ANSI коды цветов (сохраняем вашу схему)
+        colors = {
+            'reset': '\033[0m',
+            'tool': '\033[1;36m',      # Яркий голубой
+            'profile': '\033[1;35m',    # Яркий пурпурный
+            'path': '\033[1;33m',       # Яркий желтый
+            'branch': '\033[1;32m',     # Яркий зеленый
+            'dirty': '\033[1;31m',      # Яркий красный
+            'clean': '\033[1;32m',      # Яркий зеленый
+            'pointer': '\033[1;37m',    # Яркий белый
+            'separator': '\033[38;5;245m'   # Серый для разделителей
+        }
+        
+        # Собираем части промта с разделителями
+        parts = [
+            f"{colors['tool']}GitTools{colors['reset']}",
+            f"{colors['separator']} ▶ {colors['profile']}{profile_name}{colors['reset']}",
+            f"{colors['separator']} :: {colors['path']}{path}{colors['reset']}"
+        ]
+        
+        # Добавляем информацию о ветке если есть
         if branch:
-            return f"{prefix_color}gitTools -> {path_color}{shortened_path}{branch_color} [{branch}]{reset_color}> "
-        else:
-            return f"{prefix_color}gitTools -> {path_color}{shortened_path}{reset_color}> "
+            status_color = colors['dirty'] if has_changes else colors['clean']
+            status_symbol = '●' if has_changes else '✓'
+            parts.append(
+                f"{colors['separator']} :: {status_color}{status_symbol} "
+                f"{colors['branch']}{branch}{colors['reset']}"
+            )
+        
+        parts.append(f"{colors['pointer']} > {colors['reset']}")
+        
+        return "".join(parts)
 
     def display_branch_table(self, branch_data: List[Dict[str, Any]], current_branch: Optional[str]):
         """Отображает таблицу с ветками"""
