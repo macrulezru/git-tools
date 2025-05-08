@@ -92,29 +92,12 @@ class UIManager:
         self.console.print(Panel.fit(
             "[bold green]✓ Настройка завершена успешно![/]",
             border_style="green",
-            padding=(1, 2)
-        ))
+            padding=(1, 2))
+        )
         self.console.print(summary)
 
-        # Сообщение о перезапуске
-        restart_message = Text.assemble(
-            ("⚠ ", "bold yellow"),
-            ("Для применения настроек ", ""),
-            ("перезапустите скрипт", "bold yellow"),
-            (" вручную\n", ""),
-            ("Команда: ", "dim"),
-            ("python git_tools.py", "bold cyan")
-        )
-
-        self.console.print(Panel(
-            restart_message,
-            title="[yellow]Действие требуется[/yellow]",
-            border_style="yellow",
-            padding=(1, 2),
-            width=60
-        ))
-
-        exit(0)
+        # Удаляем сообщение о перезапуске и просто возвращаемся
+        self.console.print("\n[green]✓ Настройки применены. Продолжаем работу...[/green]\n")
 
     def _setup_language(self):
         """Красивый выбор языка с автоматическим определением доступных языков"""
@@ -214,7 +197,7 @@ class UIManager:
                 if work_dir:
                     if os.path.isdir(os.path.join(work_dir, ".git")):
                         # Сохраняем директорию в настройках
-                        self.config.branch_settings["WorkDir"] = work_dir
+                        current_settings["WorkDir"]["WorkDir"] = work_dir
                         # Обновляем историю директорий
                         if work_dir in self.config.dir_history:
                             self.config.dir_history.remove(work_dir)
@@ -228,7 +211,7 @@ class UIManager:
                 work_dir = input("Введите полный путь к папке: ").strip()
                 if os.path.isdir(work_dir) and os.path.isdir(os.path.join(work_dir, ".git")):
                     # Сохраняем директорию в настройках
-                    self.config.branch_settings["WorkDir"] = work_dir
+                    current_settings["WorkDir"]["WorkDir"] = work_dir
                     # Обновляем историю директорий
                     if work_dir in self.config.dir_history:
                         self.config.dir_history.remove(work_dir)
@@ -269,7 +252,7 @@ class UIManager:
         ))
 
         prefix = input(f"Введите префикс (например, dl/TTSH-): ").strip() or "dl/TTSH-"
-        self.config.branch_settings["Prefix"] = prefix
+        current_settings["Prefix"] = prefix
         self.config.prefix_history = [prefix]
 
     def _get_current_language_display(self):
@@ -503,7 +486,7 @@ class UIManager:
                         self.show_success(self.locale.tr('branch.switch_success').format(selected_branch))
                         
                         # Проверяем наличие package.json
-                        work_dir = self.config.branch_settings["WorkDir"]
+                        work_dir = current_settings["WorkDir"]
                         package_json = os.path.join(work_dir, "package.json")
 
                         if os.path.isfile(package_json):
@@ -616,7 +599,7 @@ class UIManager:
 
         try:
             result = subprocess.run(log_cmd,
-                                    cwd=self.config.branch_settings["WorkDir"],
+                                    cwd=current_settings["WorkDir"],
                                     capture_output=True,
                                     text=True,
                                     encoding=encoding)  # Указываем кодировку явно
@@ -850,9 +833,9 @@ class UIManager:
 
         """Устанавливает префикс для веток"""
         if not self.config.prefix_history:
-            self.config.prefix_history = [self.config.branch_settings["Prefix"]]
+            self.config.prefix_history = [current_settings["Prefix"]]
 
-        current_prefix = self.config.branch_settings["Prefix"]
+        current_prefix = current_settings["Prefix"]
 
         table = Table(
             title=self.locale.tr("prefix.title"),
@@ -906,7 +889,7 @@ class UIManager:
             self.show_unhappy_cat(self.locale.tr("errors.no_remotes"))
             return
 
-        current_remote = self.config.branch_settings["DefaultRemote"]
+        current_remote = current_settings["DefaultRemote"]
 
         table = Table(
             box=ROUNDED,
@@ -928,7 +911,7 @@ class UIManager:
 
         new_remote = input(f"  {self.locale.tr('remote.enter_new')}").strip()
         if new_remote:
-            self.config.branch_settings["DefaultRemote"] = new_remote
+            current_settings["DefaultRemote"] = new_remote
             self.config.save_settings()
             self.show_success(self.locale.tr('remote.changed').format(new_remote))
             self.show_happy_cat(self.locale.tr('remote.changed').format(new_remote))
@@ -1072,7 +1055,7 @@ class UIManager:
         current_branch = self.git.get_current_branch() if self.git else "unknown"
         print(f"""
         /\\_/\\
-        ( ◕‿◕ )
+       ( ◕‿◕ )
         > ^ <
 
         {self.color_codes['green']}{message}{self.color_codes['reset']}

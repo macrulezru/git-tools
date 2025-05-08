@@ -21,6 +21,7 @@ class GitBranchManager:
             if self.config.is_first_run():
                 try:
                     self.ui.run_first_time_setup()
+                    # После настройки просто продолжаем, а не выходим
                 except Exception as e:
                     self.ui.console.print(f"[red]Ошибка при настройке: {str(e)}[/red]")
                     exit(1)
@@ -101,8 +102,14 @@ class GitBranchManager:
 
     def new_branch_from_master(self):
         """Создает новую ветку от основной ветки"""
-        prefix = self.config.branch_settings["Prefix"]
-        work_dir = os.path.abspath(self.config.branch_settings["WorkDir"])
+        # Получаем текущие настройки профиля
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.ui.show_unhappy_cat(f"🚫 {self.tr('errors.no_active_profile')}")
+            return
+
+        prefix = current_settings["Prefix"]  # Получаем префикс из текущих настроек
+        work_dir = os.path.abspath(current_settings["WorkDir"])
 
         if not os.path.isdir(work_dir):
             self.ui.show_unhappy_cat(f"🚫 {self.tr('errors.directory_not_exists').format(work_dir)}")
@@ -115,10 +122,14 @@ class GitBranchManager:
 
         default_branch = self.git._get_default_branch()
 
+        print("Debug - prefix:", prefix)
+        print("Debug - default_branch:", default_branch)
+        print("Debug - translation keys:", self.locale.get_supported_languages())
+
         print(f"\n{self.ui.color_codes['dark_cyan']}╭{'─' * 40}╮")
         print(f"│ {self.tr('branch.create_title').center(38)} │")
-        print(f"│ {self.tr('branch.prefix_label').format(prefix).ljust(38)} │")
-        print(f"│ {self.tr('branch.base_label').format(default_branch).ljust(38)} │")
+        print(f"│ {self.tr('branch.prefix_label').format(prefix=prefix).ljust(38)} │")
+        print(f"│ {self.tr('branch.base_label').format(branch=default_branch).ljust(38)} │")
         print(f"╰{'─' * 40}╯{self.ui.color_codes['reset']}\n")
 
         while True:
@@ -167,14 +178,25 @@ class GitBranchManager:
 
     def _branch_exists(self, branch: str) -> bool:
         """Проверяет существование ветки"""
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.ui.show_error(self.tr('errors.no_active_profile'))
+            return False
+
         cmd = ["git", "show-ref", "--verify", f"refs/heads/{branch}"]
-        return subprocess.run(cmd, cwd=self.config.branch_settings["WorkDir"]).returncode == 0
+        return subprocess.run(cmd, cwd=current_settings["WorkDir"]).returncode == 0
 
     def delete_branch(self):
         """Удаляет ветку"""
         current_branch = self.git.get_current_branch()
         if not current_branch:
             self.ui.show_unhappy_cat(self.tr("errors.no_current_branch"))
+            return
+
+        # Получаем текущие настройки профиля
+        current_settings = self.config.get_current_settings()
+        if not current_settings:
+            self.ui.show_unhappy_cat(self.tr("errors.no_active_profile"))
             return
 
         branch_data = self.git._get_branch_data()
@@ -208,7 +230,8 @@ class GitBranchManager:
                     if remote_branch:
                         remote_confirm = input(self.tr("branch.delete_remote").format(remote_branch)).strip().lower()
                         if remote_confirm == 'y':
-                            self.git.run_git_command(f"push {self.config.branch_settings['DefaultRemote']} --delete {remote_branch}")
+                            # Используем Remote из текущих настроек вместо DefaultRemote
+                            self.git.run_git_command(f"push {current_settings['Remote']} --delete {remote_branch}")
 
                     self.ui.show_happy_cat(self.tr("branch.deleted").format(branch_to_delete))
                     return
