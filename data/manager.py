@@ -122,10 +122,6 @@ class GitBranchManager:
 
         default_branch = self.git._get_default_branch()
 
-        print("Debug - prefix:", prefix)
-        print("Debug - default_branch:", default_branch)
-        print("Debug - translation keys:", self.locale.get_supported_languages())
-
         print(f"\n{self.ui.color_codes['dark_cyan']}╭{'─' * 40}╮")
         print(f"│ {self.tr('branch.create_title').center(38)} │")
         print(f"│ {self.tr('branch.prefix_label').format(prefix=prefix).ljust(38)} │")

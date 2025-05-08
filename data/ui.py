@@ -405,55 +405,57 @@ class UIManager:
             return os.sep.join(parts[:2] + ["..."] + parts[-2:])
         return path
 
-    def prompt(self) -> str:
-        """Промт с визуальным разделением элементов"""
+    def prompt(self, current_input: str = "") -> str:
+        """Промт с интерактивными подсказками команд"""
         current_settings = self.config.get_current_settings()
         if not current_settings:
             return "GitTools [ERROR: No profile]> "
         
-        # Получаем данные
+        # Получаем данные для промта
         profile_name = current_settings["ProfileName"]
         path = current_settings["WorkDir"]
-        branch = self.git.get_current_branch() if self.git else None
-        has_changes = self._has_uncommitted_changes() if self.git else False
+        branch = self.git.get_current_branch() if hasattr(self, 'git') and self.git else None
+        has_changes = self._has_uncommitted_changes() if hasattr(self, 'git') and self.git else False
         
-        # Сокращаем путь
+        # Сокращаем путь для отображения
         home_dir = os.path.expanduser("~")
         if path.startswith(home_dir):
             path = path.replace(home_dir, "~", 1)
         
-        # ANSI коды цветов (сохраняем вашу схему)
+        # Цветовая схема
         colors = {
             'reset': '\033[0m',
-            'tool': '\033[1;36m',      # Яркий голубой
-            'profile': '\033[1;35m',    # Яркий пурпурный
-            'path': '\033[1;33m',       # Яркий желтый
-            'branch': '\033[1;32m',     # Яркий зеленый
-            'dirty': '\033[1;31m',      # Яркий красный
-            'clean': '\033[1;32m',      # Яркий зеленый
-            'pointer': '\033[1;37m',    # Яркий белый
-            'separator': '\033[38;5;245m'   # Серый для разделителей
+            'tool': '\033[1;36m',
+            'profile': '\033[1;35m',
+            'path': '\033[1;33m',
+            'branch': '\033[1;32m',
+            'dirty': '\033[1;31m',
+            'clean': '\033[1;32m',
+            'pointer': '\033[1;37m',
+            'separator': '\033[38;5;245m',
+            'command_hint': '\033[38;5;244m'
         }
         
-        # Собираем части промта с разделителями
-        parts = [
+        # Собираем основную строку промта
+        main_line = [
             f"{colors['tool']}GitTools{colors['reset']}",
             f"{colors['separator']} ▶ {colors['profile']}{profile_name}{colors['reset']}",
-            f"{colors['separator']} :: {colors['path']}{path}{colors['reset']}"
+            f"{colors['separator']} ∷ {colors['path']}{path}{colors['reset']}"
         ]
         
-        # Добавляем информацию о ветке если есть
+        # Добавляем информацию о ветке и статусе
         if branch:
             status_color = colors['dirty'] if has_changes else colors['clean']
             status_symbol = '●' if has_changes else '✓'
-            parts.append(
-                f"{colors['separator']} :: {status_color}{status_symbol} "
+            main_line.append(
+                f"{colors['separator']} ∷ {status_color}{status_symbol} "
                 f"{colors['branch']}{branch}{colors['reset']}"
             )
         
-        parts.append(f"{colors['pointer']} > {colors['reset']}")
+        # Добавляем указатель ввода
+        main_line.append(f"{colors['pointer']}> {colors['reset']}")
         
-        return "".join(parts)
+        return "".join(main_line)
 
     def display_branch_table(self, branch_data: List[Dict[str, Any]], current_branch: Optional[str]):
         """Отображает таблицу с ветками"""
