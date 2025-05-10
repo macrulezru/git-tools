@@ -616,16 +616,6 @@ class UIManager:
             self.show_error(self.locale.tr('errors.no_active_profile'))
             return
 
-        work_dir = current_settings["WorkDir"]
-
-        """Показывает историю коммитов в табличном формате без графов"""
-        console = Console()
-
-        # Устанавливаем правильную кодировку для вывода
-        import locale
-        locale.setlocale(locale.LC_ALL, '')  # Устанавливаем системную локаль
-        encoding = locale.getpreferredencoding()
-
         # Иконки для разных типов коммитов
         commit_icons = {
             "feat": "✨",
@@ -641,9 +631,11 @@ class UIManager:
             "revert": "⏪"
         }
 
-        # Получаем данные без графа с указанием кодировки
+        # Получаем данные без графа с указанием кодировки UTF-8
         log_cmd = [
             "git",
+            "-c",
+            "core.quotepath=false",  # Отключаем квотирование путей
             "log",
             "--all",
             "--pretty=format:%h|%s|%an|%ad|%d",
@@ -653,18 +645,26 @@ class UIManager:
         ]
 
         try:
-            result = subprocess.run(log_cmd,
-                                    cwd=current_settings["WorkDir"],
-                                    capture_output=True,
-                                    text=True,
-                                    encoding=encoding)  # Указываем кодировку явно
+            result = subprocess.run(
+                log_cmd,
+                cwd=current_settings["WorkDir"],
+                capture_output=True,
+                text=True,
+                encoding='utf-8',  # Явно указываем UTF-8
+                errors='replace'   # Заменяем некодируемые символы
+            )
+            
+            if result.returncode != 0:
+                self.show_error(self.locale.tr('errors.git_command_failed').format(result.stderr))
+                return
+                
             log_data = result.stdout.strip()
         except Exception as e:
-            console.print(f"[red]{self.locale.tr('errors.git_command_failed').format(str(e))}[/red]")
+            self.show_error(self.locale.tr('errors.git_command_failed').format(str(e)))
             return
 
         if not log_data:
-            console.print(f"[yellow]{self.locale.tr('errors.no_commit_data')}[/yellow]")
+            self.show_error(self.locale.tr('errors.no_commit_data'))
             return
 
         table = Table(
@@ -682,20 +682,6 @@ class UIManager:
         table.add_column(self.locale.tr("history.author"), style="bright_cyan", width=15)
         table.add_column(self.locale.tr("history.date"), style="dim", width=12)
         table.add_column(self.locale.tr("history.refs"), style="yellow", width=20)
-
-        commit_icons = {
-            "feat": "✨",
-            "fix": "🐛",
-            "docs": "📚",
-            "style": "🎨",
-            "refactor": "♻️",
-            "test": "🧪",
-            "chore": "🔧",
-            "build": "📦",
-            "ci": "⚙️",
-            "perf": "🚀",
-            "revert": "⏪"
-        }
 
         for idx, line in enumerate(log_data.split('\n'), start=1):
             parts = line.split('|')
