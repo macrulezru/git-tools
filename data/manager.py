@@ -274,6 +274,9 @@ class GitBranchManager:
             if choice != 'y':
                 return
 
+        # Запрашиваем подтверждение на пересборку локалей
+        rebuild_locales = input(self.locale.tr("reset.rebuild_locales")).strip().lower() == 'y'
+
         default_branch = self.git._get_default_branch()
         current_branch = self.git.get_current_branch()
 
@@ -292,7 +295,8 @@ class GitBranchManager:
             self.git.run_git_command(f"reset --hard origin/{default_branch}")
             progress.update(task, advance=50)
 
-        self.git._run_npm_install()
+        if rebuild_locales:
+            self.git._run_npm_install()
         self.ui.show_dragon()
 
     def reset_unstable_branch(self, confirm: bool = True):
@@ -333,6 +337,9 @@ class GitBranchManager:
             if choice != 'y':
                 return
 
+        # Запрашиваем подтверждение на пересборку локалей
+        rebuild_locales = input(self.locale.tr("reset.rebuild_locales")).strip().lower() == 'y'
+
         current_branch = self.git.get_current_branch()
 
         with self.ui.create_progress() as progress:
@@ -350,7 +357,8 @@ class GitBranchManager:
             self.git.run_git_command("reset --hard origin/unstable")
             progress.update(task, advance=50)
 
-        self.git._run_npm_install()
+        if rebuild_locales:
+            self.git._run_npm_install()
         self.ui.show_phoenix()
 
     def soft_reset_to_master(self, confirm: bool = True):

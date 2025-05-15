@@ -28,9 +28,6 @@ class GitCommands:
 
             args = ["git"] + command.split()
 
-            if len(args) > 2 and args[2] != '--show-current':
-                self.ui.show_command(' '.join(map(str, args)))
-
             # Устанавливаем правильную кодировку
             import locale
             locale.setlocale(locale.LC_ALL, '')
